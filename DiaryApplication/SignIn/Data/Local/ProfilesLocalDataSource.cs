@@ -21,9 +21,9 @@ namespace DiaryApplication.SignIn.Data.Local
             return await dataBase.GetAllProfiles();
         }
 
-        public void SendProfile(Profile profile)
+        public async Task<bool> SendProfile(Profile profile)
         {
-            dataBase.InsertProfile(profile);
+            return await dataBase.InsertProfile(profile);
         }
     }
 }

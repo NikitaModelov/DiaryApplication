@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
 using DiaryApplication.SignIn.Data;
+using DiaryApplication.Utills;
 
 namespace DiaryApplication.SignIn.Domain
 {
@@ -18,7 +19,7 @@ namespace DiaryApplication.SignIn.Domain
             repository = new ProfilesRepository();
         }
 
-        public async Task<List<Profile>> Get()
+        public async Task<IResponseWrapper> Get()
         {
             return await repository.GetAllProfiles();
         }

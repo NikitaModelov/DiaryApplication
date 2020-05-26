@@ -4,21 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utills="using:DiaryApplication.Utills"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <utills:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter"/>
+    </Page.Resources>
     <Grid>
         <Frame HorizontalAlignment="Center"
                VerticalAlignment="Center">
             <StackPanel Grid.Column="1" Grid.Row="1" >
                 <TextBlock Text="Создание профиля" Style="{StaticResource HeaderTextBlockStyle}"/>
+                <ProgressBar Visibility="{x:Bind ViewModel.VisibleLoading, 
+                                 Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}"
+                />
                 <TextBox Margin="0,20,0,0" Header="Имя" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}"/>
                 <TextBox Margin="0,16,0,0" Header="Фамилия" Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"/>
+                
                 <Button Content="Создать" 
                         Height="40" Width="100"
                         Margin="0,16,0,0"
                         Command="{x:Bind ViewModel.CreateProfileCommand}"
                         HorizontalAlignment="Right"/>
+                
             </StackPanel>
         </Frame>
 

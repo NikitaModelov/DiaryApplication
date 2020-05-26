@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
 using DiaryApplication.SignIn.Data.Local;
+using DiaryApplication.Utills;
 
 namespace DiaryApplication.SignIn.Data
 {
@@ -17,14 +19,33 @@ namespace DiaryApplication.SignIn.Data
         {
             localDataSource = new ProfilesLocalDataSource();
         }
-        public Task<List<Profile>> GetAllProfiles()
+        public async Task<IResponseWrapper> GetAllProfiles()
         {
-            return localDataSource.GetAllProfiles();
+            try
+            {
+                var response = await localDataSource.GetAllProfiles();
+                return new Success<List<Profile>>(response);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("[ProfilesRepository] Error: " + e.Message);
+                return new Error(e.Message);
+            }
         }
 
-        public void SendProfile(Profile profile)
+        public async Task<IResponseWrapper> SendProfile(Profile profile)
         {
-            localDataSource.SendProfile(profile);
+            try
+            {
+                var response = await localDataSource.SendProfile(profile);
+                return new Success<bool>(response);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("[ProfilesRepository] Error: " + e.Message);
+                return new Error(e.Message);
+            }
+            
         }
     }
 }

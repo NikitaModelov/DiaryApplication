@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
+using DiaryApplication.Utills;
 
 namespace DiaryApplication.SignIn.Data
 {
     interface IProfilesRepository
     {
-        Task<List<Profile>> GetAllProfiles();
-        void SendProfile(Profile profile);
+        Task<IResponseWrapper> GetAllProfiles();
+        Task<IResponseWrapper> SendProfile(Profile profile);
     }
 }

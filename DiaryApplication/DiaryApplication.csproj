@@ -140,10 +140,14 @@
     </Compile>
     <Compile Include="SignUp\Presentation\SignUpViewModel.cs" />
     <Compile Include="Utills\BinableBase.cs" />
+    <Compile Include="Utills\BooleanToVisibilityConverter.cs" />
     <Compile Include="Utills\Command\AsyncCommandBase.cs" />
     <Compile Include="Utills\Command\DiaryCommandAsync.cs" />
     <Compile Include="Utills\Command\IAsyncCommand.cs" />
     <Compile Include="Utills\DataBaseClient.cs" />
+    <Compile Include="Utills\Error.cs" />
+    <Compile Include="Utills\IResponseWrapper.cs" />
+    <Compile Include="Utills\Success.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

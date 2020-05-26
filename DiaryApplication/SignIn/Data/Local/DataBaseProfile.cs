@@ -25,7 +25,7 @@ namespace DiaryApplication.SignIn.Data.Local
             client = DataBaseClient.Source;
         }
 
-        public async void InsertProfile(Profile profile)
+        public async Task<bool> InsertProfile(Profile profile)
         {
             try
             {
@@ -33,14 +33,17 @@ namespace DiaryApplication.SignIn.Data.Local
                 {
                     cmd.Parameters.AddWithValue("@FirstName", profile.FirstName);
                     cmd.Parameters.AddWithValue("@SecondName", profile.SecondName);
-                    cmd.ExecuteNonQuery();
+                    var row = await cmd.ExecuteNonQueryAsync();
+                    Debug.WriteLine("[DataBaseProfile.InsertProfile()]: Rows: " + row);
                 }
                 client.CloseConnection();
+                return true;
             }
             catch (Exception e)
             {
                 Debug.WriteLine("Error: " + e.Message);
                 client.CloseConnection();
+                return false;
             }
         }
 
@@ -51,11 +54,13 @@ namespace DiaryApplication.SignIn.Data.Local
             {
                 using (SqlCommand cmd = new SqlCommand(commandGetAll, client.OpenConnection()))
                 {
-                    SqlDataReader dataReader = cmd.ExecuteReader();
+                    SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
-                        var profile = new Profile(dataReader.GetString(1), dataReader.GetString(2));
-                        profile.Id = dataReader.GetInt32(0);
+                        var profile = new Profile(
+                            dataReader.GetInt32(0),
+                            dataReader.GetString(1), 
+                            dataReader.GetString(2));
                         profiles.Add(profile);
                     }
                 }
@@ -64,7 +69,7 @@ namespace DiaryApplication.SignIn.Data.Local
             }
             catch(Exception exception)
             {
-                Debug.WriteLine("Error: " + exception.Message);
+                Debug.WriteLine("[DataBaseProfile.GetAllProfiles()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
             }

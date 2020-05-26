@@ -1,10 +1,6 @@
 ﻿using DiaryApplication.Utills;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using DiaryApplication.Core.Model;
 using DiaryApplication.SignUp.Domain;
 using DiaryApplication.Utills.Command;
@@ -13,11 +9,21 @@ namespace DiaryApplication.SignUp.Presentation
 {
     public class SignUpViewModel : BindableBase
     {
-        private SendProfileUseCase sendProfileUseCase;
+        private readonly SendProfileUseCase sendProfileUseCase;
 
         private string firstName;
         private string secondName;
 
+        private bool visibleLoading;
+
+        public bool VisibleLoading
+        {
+            get => visibleLoading;
+            set
+            {
+                Set(ref visibleLoading, value);
+            }
+        }
         public string FirstName
         {
             get => firstName;
@@ -57,8 +63,25 @@ namespace DiaryApplication.SignUp.Presentation
         {
             if (FirstName.Length != 0 && SecondName.Length != 0)
             {
-                sendProfileUseCase.SendProfile(new Profile(FirstName, SecondName));
+                ShowLoadingData(true);
+                var response = await sendProfileUseCase.SendProfile(new Profile(FirstName, SecondName));
+                if (response is Success<bool> responseWrapper && responseWrapper.Data)
+                {
+                    ShowLoadingData(false);
+                }
+                else
+                {
+                    var errorMessage = (response as Error).Message;
+                    Debug.WriteLine("[SignUpViewModel.CreateProfile()] Error: " + errorMessage);
+                    //TODO: Что-то делает при ошибке
+                }
+
             }
+        }
+
+        private void ShowLoadingData(bool value)
+        {
+            VisibleLoading = value;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core.Model;
+using DiaryApplication.Utills;
 
 namespace DiaryApplication.SignUp.Domain
 {
@@ -17,9 +18,9 @@ namespace DiaryApplication.SignUp.Domain
             repository = new ProfilesRepository();
         }
 
-        public async void SendProfile(Profile profile)
+        public async Task<IResponseWrapper> SendProfile(Profile profile)
         {
-            repository.SendProfile(profile);
+            return await repository.SendProfile(profile);
         } 
     }
 }

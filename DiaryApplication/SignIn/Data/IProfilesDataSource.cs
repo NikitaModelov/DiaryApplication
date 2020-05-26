@@ -8,6 +8,6 @@ namespace DiaryApplication.SignIn.Data
     interface IProfilesDataSource
     {
         Task<List<Profile>> GetAllProfiles();
-        void SendProfile(Profile profile);
+        Task<bool> SendProfile(Profile profile);
     }
 }
