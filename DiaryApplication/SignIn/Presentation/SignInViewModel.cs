@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
+using DiaryApplication.Core.ResponseWrapper;
 using DiaryApplication.SignIn.Domain;
 using DiaryApplication.Utills;
 

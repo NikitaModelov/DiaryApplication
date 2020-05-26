@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using DiaryApplication.Core.Model;
+using DiaryApplication.Core.ResponseWrapper;
 using DiaryApplication.SignUp.Domain;
 using DiaryApplication.Utills.Command;
 

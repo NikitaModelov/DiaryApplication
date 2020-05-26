@@ -144,10 +144,10 @@
     <Compile Include="Utills\Command\AsyncCommandBase.cs" />
     <Compile Include="Utills\Command\DiaryCommandAsync.cs" />
     <Compile Include="Utills\Command\IAsyncCommand.cs" />
-    <Compile Include="Utills\DataBaseClient.cs" />
-    <Compile Include="Utills\Error.cs" />
-    <Compile Include="Utills\IResponseWrapper.cs" />
-    <Compile Include="Utills\Success.cs" />
+    <Compile Include="Core\DataBase\DataBaseClient.cs" />
+    <Compile Include="Core\ResponseWrapper\Error.cs" />
+    <Compile Include="Core\ResponseWrapper\IResponseWrapper.cs" />
+    <Compile Include="Core\ResponseWrapper\Success.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -190,9 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Profile\" />
-    <Folder Include="SignIn\Model\" />
     <Folder Include="SignUp\Data\" />
-    <Folder Include="SignUp\Model\" />
     <Folder Include="Tasks\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

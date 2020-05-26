@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DiaryApplication.Core;
+using DiaryApplication.Core.DataBase;
 using DiaryApplication.Core.Model;
-using DiaryApplication.Utills;
 
 namespace DiaryApplication.SignIn.Data.Local
 {
