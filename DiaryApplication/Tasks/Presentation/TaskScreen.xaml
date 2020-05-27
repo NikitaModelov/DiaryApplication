@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="DiaryApplication.Tasks.TaskScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DiaryApplication.Tasks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:DiaryApplication.Tasks.Data.Model"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top" Margin="20">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Задачи"
+                           Style="{StaticResource HeaderTextBlockStyle}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind ViewModel.Tasks}"
+                  x:Name="GridView"
+                  Margin="20,100,20,20" HorizontalAlignment="Stretch" >
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="TripleLineDataTemplate" x:DataType="model:TaskEntity">
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <StackPanel Height="84" Margin="20,0,0,0">
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,4,0,0"/>
+                                <TextBlock Text="{x:Bind Subtitle}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".8" Margin="0,4,0,0"/>
+                                <TextBlock Text="{x:Bind AddTime}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

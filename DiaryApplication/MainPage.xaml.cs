@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml.Controls;
+using DiaryApplication.Tasks;
 using DiaryApplication.User.Profile.Presentation;
 
 
@@ -24,6 +25,9 @@ namespace DiaryApplication
                 {
                     case "Profile":
                         MainFrame.Navigate(typeof(ProfileScreen));
+                        break;
+                    case "Task":
+                        MainFrame.Navigate(typeof(TaskScreen));
                         break;
                 }
                 

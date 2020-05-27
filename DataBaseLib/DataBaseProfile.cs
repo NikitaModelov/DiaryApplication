@@ -98,10 +98,9 @@ namespace DataBaseLib
                 client.CloseConnection();
                 return false;
             }
-            
         }
 
-        public Task<ProfileDTO> Delete(int id)
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }

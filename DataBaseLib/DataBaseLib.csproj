@@ -122,9 +122,12 @@
   <ItemGroup>
     <Compile Include="DataBaseClient.cs" />
     <Compile Include="DataBaseProfile.cs" />
+    <Compile Include="DataBaseTask.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="ProfileDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskEntityDTO.cs" />
+    <Compile Include="TypeDTO.cs" />
     <EmbeddedResource Include="Properties\DataBaseLib.rd.xml" />
   </ItemGroup>
   <ItemGroup>

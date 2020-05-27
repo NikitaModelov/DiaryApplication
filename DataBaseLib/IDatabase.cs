@@ -11,7 +11,7 @@ namespace DataBaseLib
         Task<List<T>> SelectAll();
         Task<T> SelectById(int id);
         Task<V> Update(int id, T newObject);
-        Task<T> Delete(int id);
+        Task<V> Delete(int id);
         Task<V> Create(T newObject);
 
 
