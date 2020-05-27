@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="DiaryApplication.User.Profile.Presentation.ProfileScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DiaryApplication"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top" Margin="20">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Профиль"
+                           Style="{StaticResource HeaderTextBlockStyle}"/>
+                <AppBarButton Icon="Edit" VerticalAlignment="Center" Click="EditProfile_OnClick"/>
+            </StackPanel>
+            <TextBlock x:Name="InfoSubTitle"
+                       Text="Сведения" 
+                       Style="{StaticResource SubheaderTextBlockStyle}" 
+                       Visibility="Visible"/>
+            <TextBlock Text="Редактирование"
+                       x:Name="EditSubtitle"
+                       Style="{StaticResource SubheaderTextBlockStyle}"
+                       Visibility="Collapsed"/>
+        </StackPanel>
+         
+        <StackPanel Orientation="Vertical"  Margin="20,120,20,20">
+            <TextBox x:Name="FirstNameBox" Margin="0,20,0,0"
+                     Header="Имя" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}" IsReadOnly="True"/>
+            <TextBox x:Name="SecondNameBox" Margin="0,20,0,0" 
+                     Header="Фамилия" Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}" IsReadOnly="True"/>
+            <Button Content="Сохранить изменения" HorizontalAlignment="Right"
+                    x:Name="EditButton"
+                    Command="{x:Bind ViewModel.UpdateDiaryCommand, Mode=OneWay}"
+                    Click="EditButton_OnClick"
+                    Margin="0,16,0,0" Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Page>

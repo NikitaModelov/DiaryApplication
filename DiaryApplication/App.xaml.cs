@@ -56,7 +56,7 @@ namespace DiaryApplication
                     // Если стек навигации не восстанавливается для перехода к первой странице,
                     // настройка новой страницы путем передачи необходимой информации в качестве параметра
                     // навигации
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(User.SignIn.Presentation.SignIn), e.Arguments);
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();

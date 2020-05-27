@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="DiaryApplication.User.SignIn.Presentation.SignIn"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Frame HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+            <StackPanel>
+                <Ellipse Height="100" Width="100">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="../../../Resource/profile.png"></ImageBrush>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <ComboBox Margin="0,12,0,0"
+                          x:Name="ComboBox"
+                          SelectedItem="{x:Bind ViewModel.Profile, Mode=TwoWay}"
+                          HorizontalAlignment="Stretch"
+                          ItemsSource="{x:Bind ViewModel.Profiles, Mode=OneWay}"/>
+                <Button Margin="0,12,0,0"
+                        Height="40" Width="300"
+                        Content="Войти"
+                        Click="SignIn_onClick"
+                        Command="{x:Bind ViewModel.SignInCommand, Mode=OneWay}"
+                        CommandParameter="{x:Bind ViewModel.Profile}"
+                        HorizontalAlignment="Stretch"/>
+            </StackPanel>
+            
+        </Frame>
+
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Margin="0,0,0,12">
+            <TextBlock Text="Нет вашего профиля?" TextAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Margin="0,0,12,0"/>
+            <HyperlinkButton Content="Создать профиль"
+                             Click="ButtonBase_OnClick"
+                             Foreground="#FF3A89FB"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
