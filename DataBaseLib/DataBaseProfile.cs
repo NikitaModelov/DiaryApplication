@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using DiaryApplication.Core.DataBase;
 
 namespace DataBaseLib
 {
-    public class DataBaseProfile : IDatabase<ProfileDTO, bool>
+    public class DatabaseProfile : IDataBaseProfile<ProfileDTO, bool>
     {
-        private string commandCreate = "INSERT INTO Profile" +
-                                    "(FirstName, SecondName) VALUES(@FirstName, @SecondName)";
-
-        private string commandSelect = "SELECT * FROM Profile";
-
-        private readonly DataBaseClient client;
+        private readonly DatabaseConnection client;
         
-        public DataBaseProfile()
+        public DatabaseProfile()
         {
-            client = DataBaseClient.Source;
+            client = DatabaseConnection.Source;
         }
 
-        public async Task<List<ProfileDTO>> SelectAll()
+        public async Task<List<ProfileDTO>> SelectAll(string command = "SELECT * FROM Profile")
         {
             List<ProfileDTO> profiles = new List<ProfileDTO>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
+                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
                         var profile = new ProfileDTO(
-                            dataReader.GetInt32(0),
-                            dataReader.GetString(1),
-                            dataReader.GetString(2));
+                            id: dataReader.GetInt32(0),
+                            firstName: dataReader.GetString(1),
+                            secondName: dataReader.GetString(2),
+                            tasks: await GetTasks(dataReader.GetInt32(0)));
                         profiles.Add(profile);
                     }
                 }
@@ -49,9 +44,9 @@ namespace DataBaseLib
             }
         }
 
-        public async Task<ProfileDTO> SelectById(int id)
+        public async Task<ProfileDTO> SelectById(int idTask)
         {
-            string commandSelectById = $"SELECT * FROM Profile WHERE ID = {id}";
+            string commandSelectById = $"SELECT * FROM Profile WHERE ID = {idTask}";
             ProfileDTO profile = new ProfileDTO();
             try
             {
@@ -61,9 +56,10 @@ namespace DataBaseLib
                     while (dataReader.Read())
                     {
                         profile = new ProfileDTO(
-                            dataReader.GetInt32(0),
-                            dataReader.GetString(1),
-                            dataReader.GetString(2));
+                            id: dataReader.GetInt32(0),
+                            firstName: dataReader.GetString(1),
+                            secondName: dataReader.GetString(2),
+                            tasks: await GetTasks(dataReader.GetInt32(0)));
                     }
                 }
                 client.CloseConnection();
@@ -107,6 +103,8 @@ namespace DataBaseLib
 
         public async Task<bool> Create(ProfileDTO newObject)
         {
+            string commandCreate = "INSERT INTO Profile" +
+                                       "(FirstName, SecondName) VALUES(@FirstName, @SecondName)";
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandCreate, client.OpenConnection()))
@@ -125,6 +123,12 @@ namespace DataBaseLib
                 client.CloseConnection();
                 return false;
             }
+        }
+
+        private async Task<List<TaskEntityDTO>> GetTasks(int id)
+        {
+            var clientTask = new DatabaseTask();
+            return await clientTask.GetTaskByProfile(id);
         }
     }
 }

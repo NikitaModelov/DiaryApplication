@@ -13,7 +13,7 @@ namespace DiaryApplication.User.Profile.Data.Local
 
         public ProfileLocalDataSource()
         {
-            database = new DataBaseProfile();
+            database = new DatabaseProfile();
         }
 
         public async Task<bool> UpdateProfile(int id, ProfileDTO profile)

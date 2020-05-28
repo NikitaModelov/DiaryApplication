@@ -16,5 +16,10 @@ namespace DataBaseLib
             Id = id;
             Title = title;
         }
+
+        public TypeDTO(string title)
+        {
+            Title = title;
+        }
     }
 }

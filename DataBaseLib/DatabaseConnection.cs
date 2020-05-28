@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Data.SqlClient;
 
-namespace DiaryApplication.Core.DataBase
+namespace DataBaseLib
 {
-    public sealed class DataBaseClient
+    public sealed class DatabaseConnection
     {
         private readonly string connectionString =
             @"Data Source=DESKTOP-UAKSTFA\SQLEXPRESS;Initial Catalog=Diary;Integrated Security=True";
 
         public SqlConnection Connection { get; }
 
-        private DataBaseClient()
+        private DatabaseConnection()
         {
             Connection = new SqlConnection(connectionString);
         }
 
-        private static readonly Lazy<DataBaseClient> lazy =
-            new Lazy<DataBaseClient>(() => new DataBaseClient());
+        private static readonly Lazy<DatabaseConnection> lazy =
+            new Lazy<DatabaseConnection>(() => new DatabaseConnection());
 
-        public static DataBaseClient Source => lazy.Value;
+        public static DatabaseConnection Source => lazy.Value;
 
         public SqlConnection OpenConnection()
         {

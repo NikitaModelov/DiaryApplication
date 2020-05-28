@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Contacts;
 
 namespace DataBaseLib
 {
@@ -16,6 +17,7 @@ namespace DataBaseLib
         public DateTime LastChangeTime { get; private set; }
         public bool IsClosed { get; private set; }
         public List<TypeDTO> Types { get; private set; }
+        public List<IntervalDTO> Intervals { get; private set; }
 
         public TaskEntityDTO(
             int id,
@@ -25,7 +27,8 @@ namespace DataBaseLib
             DateTime addTime,
             DateTime lastChangeTime,
             bool isClosed,
-            List<TypeDTO> types)
+            List<TypeDTO> types,
+            List<IntervalDTO> intervals)
         {
             Id = id;
             Title = title;
@@ -35,6 +38,7 @@ namespace DataBaseLib
             LastChangeTime = lastChangeTime;
             IsClosed = isClosed;
             Types = types;
+            Intervals = intervals;
         }
 
         public TaskEntityDTO() { }

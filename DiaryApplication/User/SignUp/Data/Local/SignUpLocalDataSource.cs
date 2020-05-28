@@ -5,11 +5,11 @@ namespace DiaryApplication.User.SignUp.Data.Local
 {
     class SignUpLocalDataSource : ISignUpDataSource
     {
-        private readonly IDatabase<ProfileDTO, bool> database;
+        private readonly IDataBaseProfile<ProfileDTO, bool> database;
 
         public SignUpLocalDataSource()
         {
-            database = new DataBaseProfile();
+            database = new DatabaseProfile();
         }
 
         public async Task<bool> SendProfile(ProfileDTO profile)

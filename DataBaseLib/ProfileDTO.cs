@@ -11,16 +11,19 @@ namespace DataBaseLib
         public int Id { get; }
         public string FirstName { get; }
         public string SecondName { get; }
+        public List<TaskEntityDTO> Tasks { get; private set; }
 
-        public ProfileDTO(int id, string firstName, string secondName)
+        public ProfileDTO(int id, string firstName, string secondName, List<TaskEntityDTO> tasks)
         {
             Id = id;
             FirstName = firstName;
             SecondName = secondName;
+            Tasks = tasks;
         }
 
-        public ProfileDTO(string firstName, string secondName)
+        public ProfileDTO(string firstName, string secondName, List<TaskEntityDTO> tasks)
         {
+            Tasks = tasks;
             FirstName = firstName;
             SecondName = secondName;
         }
