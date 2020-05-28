@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
-using DiaryApplication.Core.Model;
 using DiaryApplication.Core.ResponseWrapper;
-using DiaryApplication.User.SignIn.Data;
 using DiaryApplication.User.SignUp.Data;
 
 namespace DiaryApplication.User.SignUp.Domain

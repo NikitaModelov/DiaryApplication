@@ -12,20 +12,19 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using DiaryApplication.Tasks.Domain;
-using DiaryApplication.Tasks.Presentation;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace DiaryApplication.Tasks
+namespace DiaryApplication.Tasks.AddTask.Presentation
 {
-    public sealed partial class TaskScreen : Page
+    /// <summary>
+    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
+    /// </summary>
+    public sealed partial class AddTaskScreen : Page
     {
-        public TaskViewModel ViewModel;
-        public TaskScreen()
+        public AddTaskScreen()
         {
             this.InitializeComponent();
-            ViewModel = new TaskViewModel(new GetTasksUseCase());
         }
     }
 }

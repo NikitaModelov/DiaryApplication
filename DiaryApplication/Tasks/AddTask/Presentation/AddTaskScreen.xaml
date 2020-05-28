@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="DiaryApplication.Tasks.AddTask.Presentation.AddTaskScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DiaryApplication.Tasks.AddTask.Presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top" Margin="20">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="Создать задачу"
+                           Style="{StaticResource HeaderTextBlockStyle}"/>
+            </StackPanel>
+            <TextBox Margin="0,20,0,0" Header="Заголовок"/>
+            <TextBox Margin="0,14,0,0" Header="Краткое описание"/>
+            <TextBox Margin="0,14,0,0" Header="Описание" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</Page>

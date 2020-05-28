@@ -126,15 +126,18 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tasks\Data\ITasksRepository.cs" />
-    <Compile Include="Tasks\Data\Local\TasksLocalDataSource.cs" />
-    <Compile Include="Tasks\Data\Model\TaskEntity.cs" />
-    <Compile Include="Tasks\Data\TasksRepository.cs" />
-    <Compile Include="Tasks\Domain\GetTasksUseCase.cs" />
-    <Compile Include="Tasks\Presentation\TaskScreen.xaml.cs">
+    <Compile Include="Tasks\AddTask\Presentation\AddTaskScreen.xaml.cs">
+      <DependentUpon>AddTaskScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\AllTasks\Data\ITasksRepository.cs" />
+    <Compile Include="Tasks\AllTasks\Data\Local\TasksLocalDataSource.cs" />
+    <Compile Include="Tasks\AllTasks\Data\Model\TaskEntity.cs" />
+    <Compile Include="Tasks\AllTasks\Data\TasksRepository.cs" />
+    <Compile Include="Tasks\AllTasks\Domain\GetTasksUseCase.cs" />
+    <Compile Include="Tasks\AllTasks\Presentation\TaskScreen.xaml.cs">
       <DependentUpon>TaskScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Tasks\Presentation\TaskViewModel.cs" />
+    <Compile Include="Tasks\AllTasks\Presentation\TaskViewModel.cs" />
     <Compile Include="User\Profile\Data\IProfileDataSource.cs" />
     <Compile Include="User\Profile\Data\IProfileRepository.cs" />
     <Compile Include="User\Profile\Data\Local\ProfileLocalDataSource.cs" />
@@ -204,7 +207,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Tasks\Presentation\TaskScreen.xaml">
+    <Page Include="Tasks\AddTask\Presentation\AddTaskScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\AllTasks\Presentation\TaskScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,7 +235,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Profile\" />
-    <Folder Include="Tasks\Data\Repository\" />
+    <Folder Include="Tasks\AddTask\Data\" />
+    <Folder Include="Tasks\AddTask\Domain\" />
+    <Folder Include="Tasks\AllTasks\Data\Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataBaseLib\DataBaseLib.csproj">

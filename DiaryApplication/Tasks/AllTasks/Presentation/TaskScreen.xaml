@@ -14,6 +14,8 @@
             <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="Задачи"
                            Style="{StaticResource HeaderTextBlockStyle}"/>
+                <AppBarButton Icon="Add" VerticalAlignment="Center" Click="AddTask_OnClick"/>
+
             </StackPanel>
         </StackPanel>
 
