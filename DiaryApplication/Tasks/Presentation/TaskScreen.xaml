@@ -17,18 +17,18 @@
             </StackPanel>
         </StackPanel>
 
-        <ListView ItemsSource="{x:Bind ViewModel.Tasks}"
+        <ListView ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
                   x:Name="GridView"
                   Margin="20,100,20,20" HorizontalAlignment="Stretch" >
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="TripleLineDataTemplate" x:DataType="model:TaskEntity">
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                            <StackPanel Height="84" Margin="20,0,0,0">
-                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,4,0,0"/>
-                                <TextBlock Text="{x:Bind Subtitle}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".8" Margin="0,4,0,0"/>
-                                <TextBlock Text="{x:Bind AddTime}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,4,0,0"/>
-                            </StackPanel>
+                        <StackPanel Height="84" Margin="20,0,0,0">
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,4,0,0"/>
+                            <TextBlock Text="{x:Bind Subtitle, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".8" Margin="0,4,0,0"/>
+                            <TextBlock Text="{x:Bind AddTime, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,4,0,0"/>
                         </StackPanel>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

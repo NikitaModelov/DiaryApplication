@@ -126,7 +126,11 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\Data\ITasksRepository.cs" />
+    <Compile Include="Tasks\Data\Local\TasksLocalDataSource.cs" />
     <Compile Include="Tasks\Data\Model\TaskEntity.cs" />
+    <Compile Include="Tasks\Data\TasksRepository.cs" />
+    <Compile Include="Tasks\Domain\GetTasksUseCase.cs" />
     <Compile Include="Tasks\Presentation\TaskScreen.xaml.cs">
       <DependentUpon>TaskScreen.xaml</DependentUpon>
     </Compile>
@@ -224,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Profile\" />
+    <Folder Include="Tasks\Data\Repository\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataBaseLib\DataBaseLib.csproj">

@@ -19,7 +19,7 @@ namespace DiaryApplication.User.Profile.Domain
 
         public async Task<IResponseWrapper> UpdateProfile(int id, Core.Model.Profile profile)
         {
-            return await repository.UpdateProfile(id, profile);
+            return await Task.Run(() => repository.UpdateProfile(id, profile));
         }
     }
 }

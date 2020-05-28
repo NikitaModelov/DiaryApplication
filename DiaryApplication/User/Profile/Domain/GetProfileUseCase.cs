@@ -19,7 +19,7 @@ namespace DiaryApplication.User.Profile.Domain
 
         public async Task<IResponseWrapper> Get(int id)
         {
-            return await repository.GetProfileById(id);
+            return await Task.Run(() => repository.GetProfileById(id));
         }
     }
 }

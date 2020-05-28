@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using DiaryApplication.Tasks.Domain;
 using DiaryApplication.Tasks.Presentation;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,7 +25,7 @@ namespace DiaryApplication.Tasks
         public TaskScreen()
         {
             this.InitializeComponent();
-            ViewModel = new TaskViewModel();
+            ViewModel = new TaskViewModel(new GetTasksUseCase());
         }
     }
 }

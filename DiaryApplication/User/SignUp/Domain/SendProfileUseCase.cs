@@ -17,7 +17,7 @@ namespace DiaryApplication.User.SignUp.Domain
 
         public async Task<IResponseWrapper> SendProfile(Core.Model.Profile profile)
         {
-            return await repository.SendProfile(profile);
+            return await Task.Run(() => repository.SendProfile(profile));
         } 
     }
 }

@@ -15,7 +15,7 @@ namespace DiaryApplication.User.SignIn.Domain
 
         public async Task<IResponseWrapper> Get()
         {
-            return await repository.GetAllProfiles();
+            return await Task.Run(() => repository.GetAllProfiles());
         }
     }
 }
