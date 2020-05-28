@@ -119,6 +119,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Model\Interval.cs" />
+    <Compile Include="Core\Model\TypeEntity.cs" />
     <Compile Include="Core\Session.cs" />
     <Compile Include="Core\Status.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -146,6 +148,7 @@
     <Compile Include="User\SignUp\Data\Local\SignUpLocalDataSource.cs" />
     <Compile Include="User\SignUp\Data\SignUpRepository.cs" />
     <Compile Include="Utills\Command\DiaryCommand.cs" />
+    <Compile Include="Utills\IntervalMapper.cs" />
     <Compile Include="Utills\ProfileMapper.cs" />
     <Compile Include="User\SignIn\Data\Local\SignInLocalDataSource.cs" />
     <Compile Include="User\SignIn\Data\SignInRepository.cs" />
@@ -169,6 +172,8 @@
     <Compile Include="Core\ResponseWrapper\Error.cs" />
     <Compile Include="Core\ResponseWrapper\IResponseWrapper.cs" />
     <Compile Include="Core\ResponseWrapper\Success.cs" />
+    <Compile Include="Utills\TaskMapper.cs" />
+    <Compile Include="Utills\TypeMapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiaryApplication.Core.Model;
 
 namespace DiaryApplication.Tasks.Data.Model
 {
@@ -15,6 +16,8 @@ namespace DiaryApplication.Tasks.Data.Model
         public DateTime AddTime { get; private set; }
         public DateTime LastChangeTime { get; private set; }
         public bool IsClosed { get; private set; }
+        public List<TypeEntity> Types { get; private set; }
+        public List<Interval> Intervals { get; private set; }
 
         public TaskEntity(
             int id, 
@@ -23,7 +26,9 @@ namespace DiaryApplication.Tasks.Data.Model
             string description, 
             DateTime addTime,
             DateTime lastChangeTime,
-            bool isClosed)
+            bool isClosed,
+            List<TypeEntity> types,
+            List<Interval> intervals)
         {
             Id = id;
             Title = title;
@@ -32,6 +37,8 @@ namespace DiaryApplication.Tasks.Data.Model
             AddTime = addTime;
             LastChangeTime = lastChangeTime;
             IsClosed = isClosed;
+            Types = types;
+            Intervals = intervals;
         }
     }
 }

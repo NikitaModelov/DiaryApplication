@@ -9,14 +9,16 @@ namespace DataBaseLib
     public class DatabaseProfile : IDataBaseProfile<ProfileDTO, bool>
     {
         private readonly DatabaseConnection client;
-        
+
         public DatabaseProfile()
         {
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<ProfileDTO>> SelectAll(string command = "SELECT * FROM Profile")
+        public async Task<List<ProfileDTO>> SelectAll(string command)
         {
+            if (command.Length == 0)
+                command = "SELECT * FROM Profile";
             List<ProfileDTO> profiles = new List<ProfileDTO>();
             try
             {
@@ -28,8 +30,7 @@ namespace DataBaseLib
                         var profile = new ProfileDTO(
                             id: dataReader.GetInt32(0),
                             firstName: dataReader.GetString(1),
-                            secondName: dataReader.GetString(2),
-                            tasks: await GetTasks(dataReader.GetInt32(0)));
+                            secondName: dataReader.GetString(2));
                         profiles.Add(profile);
                     }
                 }
@@ -38,7 +39,7 @@ namespace DataBaseLib
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseProfile.GetAllProfiles()] Error: " + exception.Message);
+                Debug.WriteLine("[DataBaseProfile.SelectAll()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
             }
@@ -55,19 +56,22 @@ namespace DataBaseLib
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
-                        profile = new ProfileDTO(
-                            id: dataReader.GetInt32(0),
-                            firstName: dataReader.GetString(1),
-                            secondName: dataReader.GetString(2),
-                            tasks: await GetTasks(dataReader.GetInt32(0)));
+                        var id = dataReader.GetInt32(0);
+                        var firstName = dataReader.GetString(1);
+                        var secondName = dataReader.GetString(2);
+
+                        profile = new ProfileDTO(id, firstName, secondName, null);
                     }
+
+                    profile.SetTasks(await GetTasks(profile.Id));
+
                 }
                 client.CloseConnection();
                 return profile;
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseProfile.GetAllProfiles()] Error: " + exception.Message);
+                Debug.WriteLine("[DataBaseProfile.SelectById()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
             }

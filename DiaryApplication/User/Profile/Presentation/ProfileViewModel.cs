@@ -70,7 +70,7 @@ namespace DiaryApplication.User.Profile.Presentation
         {
             if (FirstName != "" && SecondName != "")
             {
-                var response = await updateProfileUseCase.UpdateProfile(Session.IdProfile, new Core.Model.Profile(FirstName, SecondName));
+                var response = await updateProfileUseCase.UpdateProfile(Session.IdProfile, new Core.Model.Profile(FirstName, SecondName, null));
                 if (response is Success<bool> responseWrapper)
                 {
                     // TODO: Что-то сделать

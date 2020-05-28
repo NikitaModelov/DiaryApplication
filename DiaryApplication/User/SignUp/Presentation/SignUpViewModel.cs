@@ -65,7 +65,7 @@ namespace DiaryApplication.User.SignUp.Presentation
             if (FirstName.Length != 0 && SecondName.Length != 0)
             {
                 ShowLoadingData(true);
-                var response = await sendProfileUseCase.SendProfile(new Core.Model.Profile(FirstName, SecondName));
+                var response = await sendProfileUseCase.SendProfile(new Core.Model.Profile(FirstName, SecondName, null));
                 if (response is Success<bool> responseWrapper && responseWrapper.Data)
                 {
                     ShowLoadingData(false);

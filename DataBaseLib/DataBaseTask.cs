@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -14,8 +15,12 @@ namespace DataBaseLib
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<TaskEntityDTO>> SelectAll(string command = "SELECT * FROM Task")
+        public async Task<List<TaskEntityDTO>> SelectAll(string command)
         {
+            if (client.Connection.State == ConnectionState.Open)
+                client.CloseConnection();
+            if (command.Length == 0)
+                command = "SELECT * FROM Task";
             var tasks = new List<TaskEntityDTO>();
             try
             {
@@ -24,18 +29,23 @@ namespace DataBaseLib
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
-                        var task = new TaskEntityDTO(
-                            id: dataReader.GetInt32(0),
-                            title: dataReader.GetString(1),
-                            subtitle: dataReader.GetString(2),
-                            description: dataReader.GetString(3),
-                            addTime: dataReader.GetDateTime(4),
-                            lastChangeTime: dataReader.GetDateTime(5),
-                            isClosed: dataReader.GetByte(6) ==  1,
-                            types: GetTypesTask(dataReader.GetInt32(0)), 
-                            intervals: GetIntervalsTask(dataReader.GetInt32(0)));
+                        var id = dataReader.GetInt32(0);
+                        var title = dataReader.GetString(1);
+                        var subtitle = dataReader.GetString(2);
+                        var description = dataReader.GetString(3);
+                        var addTime = dataReader.GetDateTime(4);
+                        var lastChangeTime = dataReader.GetDateTime(5);
+                        var isClosed = dataReader.GetBoolean(6);
+
+                        var task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
                         tasks.Add(task);
                     }
+                }
+
+                foreach (var task in tasks)
+                {
+                    task.SetTypes(await GetTypesTask(task.Id));
+                    task.SetIntervals(await GetIntervalsTask(task.Id));
                 }
                 client.CloseConnection();
                 return tasks;
@@ -57,20 +67,19 @@ namespace DataBaseLib
                 using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
-                    while (dataReader.Read())
-                    {
-                        task = new TaskEntityDTO(
-                            id: dataReader.GetInt32(0),
-                            title: dataReader.GetString(1),
-                            subtitle: dataReader.GetString(2),
-                            description: dataReader.GetString(3),
-                            addTime: dataReader.GetDateTime(4),
-                            lastChangeTime: dataReader.GetDateTime(5),
-                            isClosed: dataReader.GetByte(6) == 1,
-                            types: GetTypesTask(dataReader.GetInt32(0)),
-                            intervals: GetIntervalsTask(dataReader.GetInt32(0)));
-                    }
+
+                    var id = dataReader.GetInt32(0);
+                    var title = dataReader.GetString(1);
+                    var subtitle = dataReader.GetString(2);
+                    var description = dataReader.GetString(3);
+                    var addTime = dataReader.GetDateTime(4);
+                    var lastChangeTime = dataReader.GetDateTime(5);
+                    var isClosed = dataReader.GetBoolean(6);
+
+                    task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
                 }
+                task.SetTypes(await GetTypesTask(task.Id));
+                task.SetIntervals(await GetIntervalsTask(task.Id));
                 client.CloseConnection();
                 return task;
             }
@@ -84,7 +93,7 @@ namespace DataBaseLib
 
         public async Task<List<TaskEntityDTO>> GetTaskByProfile(int id)
         {
-
+            client.CloseConnection();
             string commandGetTaskByProfile = "SELECT Task.ID, Task.Title, Task.Subtitle, Task.[Description], Task.AddTime, Task.LastChangeTime, Task.IsClosed " +
                                              "FROM [Profile_Task], Task " +
                                              $"WHERE Profile_Task.IDProfile = {id} AND Profile_Task.IDTask = Task.ID ";
@@ -184,8 +193,9 @@ namespace DataBaseLib
 
         private async Task<List<TypeDTO>> GetTypesTask(int id)
         {
-            string commandGetTypesTask = "SELECT [Type].Title FROM [Type], Task, Type_Task " +
-                                        $"WHERE[Type].ID = Type_Task.IDType AND Task.ID = Type_Task.IDTask AND Task.ID = {id}";
+            client.CloseConnection();
+            string commandGetTypesTask = "SELECT [Type].ID, [Type].Title FROM [Type], Task, Type_Task " +
+                                         $"WHERE[Type].ID = Type_Task.IDType AND Task.ID = Type_Task.IDTask AND Task.ID = {id}";
             var types = new List<TypeDTO>();
             try
             {
@@ -203,7 +213,7 @@ namespace DataBaseLib
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseTask.SelectAll()] Error: " + exception.Message);
+                Debug.WriteLine("[DataBaseTask.GetTypesTask()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
             }
@@ -211,8 +221,9 @@ namespace DataBaseLib
 
         private async Task<List<IntervalDTO>> GetIntervalsTask(int id)
         {
-            string commandGetIntervalsTask = "SELECT [Task_Interval].StartTime, [Task_Interval].FinishTime, [Task_Interval].Rating FROM Task_Interval " +
-                                        $"WHERE [Task_Interval].IDTask = {id}";
+            client.CloseConnection();
+            string commandGetIntervalsTask = "SELECT [Task_Interval].ID, [Task_Interval].StartTime, [Task_Interval].FinishTime, [Task_Interval].Rating FROM Task_Interval " +
+                                             $"WHERE [Task_Interval].IDTask = {id}";
             var intervals = new List<IntervalDTO>();
             try
             {
@@ -221,7 +232,7 @@ namespace DataBaseLib
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
-                        var type = new IntervalDTO(dataReader.GetDateTime(0), dataReader.GetDateTime(1), dataReader.GetDouble(2));
+                        var type = new IntervalDTO(dataReader.GetInt32(0), dataReader.GetDateTime(1), dataReader.GetDateTime(2), dataReader.GetDouble(3));
                         intervals.Add(type);
                     }
                 }
@@ -238,6 +249,7 @@ namespace DataBaseLib
 
         private async Task<bool> InsertTypeTask(int? lastIndexTask, List<TypeDTO> types)
         {
+            client.CloseConnection();
             string commandInsertTypeTask = $"INSERT Type_Task (IDTask, IDType) VALUES (@IDTask, @IDType)";
            
             try
@@ -271,6 +283,7 @@ namespace DataBaseLib
 
         private async Task<bool> InsertProfileTask(int idProfile)
         {
+            client.CloseConnection();
             string commandInsertProfileTask = $"INSERT Profile_Task VALUES ( 1, {idProfile} )";
 
             try

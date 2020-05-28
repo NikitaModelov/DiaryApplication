@@ -20,7 +20,13 @@ namespace DataBaseLib
             SecondName = secondName;
             Tasks = tasks;
         }
-
+        public ProfileDTO(int id, string firstName, string secondName)
+        {
+            Id = id;
+            FirstName = firstName;
+            SecondName = secondName;
+            Tasks = null;
+        }
         public ProfileDTO(string firstName, string secondName, List<TaskEntityDTO> tasks)
         {
             Tasks = tasks;
@@ -29,5 +35,10 @@ namespace DataBaseLib
         }
 
         public ProfileDTO(){}
+
+        public void SetTasks(List<TaskEntityDTO> tasks)
+        {
+            Tasks = tasks;
+        }
     }
 }

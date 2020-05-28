@@ -41,6 +41,16 @@ namespace DataBaseLib
             Intervals = intervals;
         }
 
+        public void SetTypes(List<TypeDTO> types)
+        {
+            Types = types;
+        }
+
+        public void SetIntervals(List<IntervalDTO> intervals)
+        {
+            Intervals = intervals;
+        }
+
         public TaskEntityDTO() { }
     }
 }

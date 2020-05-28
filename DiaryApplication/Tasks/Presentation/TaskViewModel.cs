@@ -37,14 +37,7 @@ namespace DiaryApplication.Tasks.Presentation
 
         public TaskViewModel()
         {
-            tasks = new ObservableCollection<TaskEntity>()
-            {
-                new TaskEntity(1, "Title", "Subtitle", "Description", new DateTime(2020,5,27,21,7,45), new DateTime(2020,5,27,21,7,45), false),
-                new TaskEntity(2, "Title", "Subtitle", "Description", new DateTime(2020,5,27,21,7,45), new DateTime(2020,5,27,21,7,45), false),
-                new TaskEntity(3, "Title", "Subtitle", "Description", new DateTime(2020,5,27,21,7,45), new DateTime(2020,5,27,21,7,45), false),
-                new TaskEntity(4, "Title", "Subtitle", "Description", new DateTime(2020,5,27,21,7,45), new DateTime(2020,5,27,21,7,45), false),
-                new TaskEntity(5, "Title", "Subtitle", "Description", new DateTime(2020,5,27,21,7,45), new DateTime(2020,5,27,21,7,45), false),
-            };
+
         }
     }
 }
