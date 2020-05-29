@@ -5,8 +5,8 @@ namespace DataBaseLib
 {
     public interface IDatabase<T, V>
     {
-        Task<List<T>> SelectAll(string command = "");
-        Task<T> SelectById(int idTask);
+        Task<List<T>> SelectAll();
+        Task<T> SelectById(int id);
         Task<V> Update(int id, T newObject);
         Task<V> Delete(int id);
     }

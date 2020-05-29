@@ -28,11 +28,11 @@ namespace DiaryApplication.Utills
         }
         public static IEnumerable<IntervalDTO> ConvertToListDto(List<Interval> intervals)
         {
-            return intervals.Select(ConvertToDto) ?? null;
+            return intervals?.Select(ConvertToDto);
         }
         public static IEnumerable<Interval> ConvertFromListDto(List<IntervalDTO> intervals)
         {
-            return intervals.Select(ConvertFromDto) ?? null;
+            return intervals?.Select(ConvertFromDto);
         }
     }
 }

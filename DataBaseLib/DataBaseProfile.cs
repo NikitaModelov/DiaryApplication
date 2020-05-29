@@ -15,10 +15,9 @@ namespace DataBaseLib
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<ProfileDTO>> SelectAll(string command)
+        public async Task<List<ProfileDTO>> SelectAll()
         {
-            if (command.Length == 0)
-                command = "SELECT * FROM Profile";
+            var command = "SELECT * FROM Profile";
             List<ProfileDTO> profiles = new List<ProfileDTO>();
             try
             {
@@ -45,9 +44,9 @@ namespace DataBaseLib
             }
         }
 
-        public async Task<ProfileDTO> SelectById(int idTask)
+        public async Task<ProfileDTO> SelectById(int idObject)
         {
-            string commandSelectById = $"SELECT * FROM Profile WHERE ID = {idTask}";
+            string commandSelectById = $"SELECT * FROM Profile WHERE ID = {idObject}";
             ProfileDTO profile = new ProfileDTO();
             try
             {
@@ -87,7 +86,7 @@ namespace DataBaseLib
             {
                 using (SqlCommand cmd = new SqlCommand(updateCommand, client.OpenConnection()))
                 {
-                    cmd.ExecuteNonQuery();
+                    var row = await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();
                 return true;

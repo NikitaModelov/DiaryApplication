@@ -21,5 +21,7 @@ namespace DataBaseLib
         {
             Title = title;
         }
+
+        public TypeDTO() {}
     }
 }

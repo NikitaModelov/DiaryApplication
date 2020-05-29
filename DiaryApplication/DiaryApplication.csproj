@@ -126,9 +126,16 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\AddTask\Data\AddTaskRepository.cs" />
+    <Compile Include="Tasks\AddTask\Data\IAddTaskRepository.cs" />
+    <Compile Include="Tasks\AddTask\Data\Local\AddTaskLocalDataSource.cs" />
+    <Compile Include="Tasks\AddTask\Data\Local\IAddTaskDataSource.cs" />
+    <Compile Include="Tasks\AddTask\Domain\GetTypeUseCase.cs" />
+    <Compile Include="Tasks\AddTask\Domain\SendTaskUseCase.cs" />
     <Compile Include="Tasks\AddTask\Presentation\AddTaskScreen.xaml.cs">
       <DependentUpon>AddTaskScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\AddTask\Presentation\AddTaskViewModel.cs" />
     <Compile Include="Tasks\AllTasks\Data\ITasksRepository.cs" />
     <Compile Include="Tasks\AllTasks\Data\Local\TasksLocalDataSource.cs" />
     <Compile Include="Tasks\AllTasks\Data\Model\TaskEntity.cs" />
@@ -235,8 +242,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Profile\" />
-    <Folder Include="Tasks\AddTask\Data\" />
-    <Folder Include="Tasks\AddTask\Domain\" />
     <Folder Include="Tasks\AllTasks\Data\Repository\" />
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +249,9 @@
       <Project>{4e7221c8-c916-4a3f-85fc-60718ae12dce}</Project>
       <Name>DataBaseLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

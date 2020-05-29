@@ -21,7 +21,7 @@ namespace DiaryApplication.Utills
                 lastChangeTime: taskEntity.LastChangeTime,
                 isClosed: taskEntity.IsClosed,
                 types: TypeMapper.ConvertToListDto(taskEntity.Types).ToList(),
-                intervals: IntervalMapper.ConvertToListDto(taskEntity.Intervals).ToList());
+                intervals: IntervalMapper.ConvertToListDto(taskEntity.Intervals)?.ToList());
         }
         public static TaskEntity ConvertFromDto(TaskEntityDTO task)
         {
@@ -34,7 +34,7 @@ namespace DiaryApplication.Utills
                 lastChangeTime: task.LastChangeTime,
                 isClosed: task.IsClosed,
                 types: TypeMapper.ConvertFromListDto(task.Types).ToList(),
-                intervals: IntervalMapper.ConvertFromListDto(task.Intervals).ToList());
+                intervals: IntervalMapper.ConvertFromListDto(task.Intervals)?.ToList());
         }
         public static IEnumerable<TaskEntityDTO> ConvertToListDto(List<TaskEntity> tasks)
         {

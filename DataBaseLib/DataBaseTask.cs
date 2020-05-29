@@ -15,12 +15,86 @@ namespace DataBaseLib
             client = DatabaseConnection.Source;
         }
 
-        public async Task<List<TaskEntityDTO>> SelectAll(string command)
+        public async Task<List<TaskEntityDTO>> SelectAll()
         {
-            if (client.Connection.State == ConnectionState.Open)
+            var command = "SELECT * FROM Task";
+            var tasks = new List<TaskEntityDTO>();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                {
+                    SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
+                    while (dataReader.Read())
+                    {
+                        var id = dataReader.GetInt32(0);
+                        var title = dataReader.GetString(1);
+                        var subtitle = dataReader.GetString(2);
+                        var description = dataReader.GetString(3);
+                        var addTime = dataReader.GetDateTime(4);
+                        var lastChangeTime = dataReader.GetDateTime(5);
+                        var isClosed = dataReader.GetBoolean(6);
+
+                        var task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
+                        tasks.Add(task);
+                    }
+                }
+                
+                foreach (var task in tasks)
+                {
+                    task.SetTypes(await GetTypesTask(task.Id));
+                    task.SetIntervals(await GetIntervalsTask(task.Id));
+                }
                 client.CloseConnection();
-            if (command.Length == 0)
-                command = "SELECT * FROM Task";
+                return tasks;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseTask.SelectAll()] Error: " + exception.Message);
+                client.CloseConnection();
+                return null;
+            }
+        }
+
+        public async Task<TaskEntityDTO> SelectById(int idObject)
+        {
+            string commandSelect = $"SELECT * FROM Task WHERE ID = {idObject}";
+            var task = new TaskEntityDTO();
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
+                {
+                    SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
+
+                    var id = dataReader.GetInt32(0);
+                    var title = dataReader.GetString(1);
+                    var subtitle = dataReader.GetString(2);
+                    var description = dataReader.GetString(3);
+                    var addTime = dataReader.GetDateTime(4);
+                    var lastChangeTime = dataReader.GetDateTime(5);
+                    var isClosed = dataReader.GetBoolean(6);
+
+                    task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
+                }
+                task.SetTypes(await GetTypesTask(task.Id));
+                task.SetIntervals(await GetIntervalsTask(task.Id));
+                client.CloseConnection();
+                return task;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseTask.SelectById()] Error: " + exception.Message);
+                client.CloseConnection();
+                return null;
+            }
+        }
+
+        public async Task<List<TaskEntityDTO>> GetTaskByProfile(int idProfile)
+        {
+            client.CloseConnection();
+            string command = "SELECT Task.ID, Task.Title, Task.Subtitle, Task.[Description], Task.AddTime, Task.LastChangeTime, Task.IsClosed " +
+                                             "FROM [Profile_Task], Task " +
+                                             $"WHERE Profile_Task.IDProfile = {idProfile} AND Profile_Task.IDTask = Task.ID ";
+
             var tasks = new List<TaskEntityDTO>();
             try
             {
@@ -52,52 +126,10 @@ namespace DataBaseLib
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseTask.SelectAll()] Error: " + exception.Message);
+                Debug.WriteLine("[DatabaseTask.SelectAll()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
             }
-        }
-
-        public async Task<TaskEntityDTO> SelectById(int idTask)
-        {
-            string commandSelect = $"SELECT * FROM Task WHERE ID = {idTask}";
-            var task = new TaskEntityDTO();
-            try
-            {
-                using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
-                {
-                    SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
-
-                    var id = dataReader.GetInt32(0);
-                    var title = dataReader.GetString(1);
-                    var subtitle = dataReader.GetString(2);
-                    var description = dataReader.GetString(3);
-                    var addTime = dataReader.GetDateTime(4);
-                    var lastChangeTime = dataReader.GetDateTime(5);
-                    var isClosed = dataReader.GetBoolean(6);
-
-                    task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
-                }
-                task.SetTypes(await GetTypesTask(task.Id));
-                task.SetIntervals(await GetIntervalsTask(task.Id));
-                client.CloseConnection();
-                return task;
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine("[DataBaseTask.SelectById()] Error: " + exception.Message);
-                client.CloseConnection();
-                return null;
-            }
-        }
-
-        public async Task<List<TaskEntityDTO>> GetTaskByProfile(int id)
-        {
-            client.CloseConnection();
-            string commandGetTaskByProfile = "SELECT Task.ID, Task.Title, Task.Subtitle, Task.[Description], Task.AddTime, Task.LastChangeTime, Task.IsClosed " +
-                                             "FROM [Profile_Task], Task " +
-                                             $"WHERE Profile_Task.IDProfile = {id} AND Profile_Task.IDTask = Task.ID ";
-            return await SelectAll(commandGetTaskByProfile);
         }
 
         public async Task<bool> Update(int id, TaskEntityDTO newObject)
@@ -114,14 +146,14 @@ namespace DataBaseLib
             {
                 using (SqlCommand cmd = new SqlCommand(updateCommand, client.OpenConnection()))
                 {
-                    cmd.ExecuteNonQuery();
+                    var row = await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();
                 return true;
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseProfile.Update()] Error: " + exception.Message);
+                Debug.WriteLine("[DatabaseTask.Update()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
             }
@@ -134,14 +166,14 @@ namespace DataBaseLib
             {
                 using (SqlCommand cmd = new SqlCommand(commandDelete, client.OpenConnection()))
                 {
-                    cmd.ExecuteNonQuery();
+                    var row = await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();
                 return true;
             }
             catch (Exception exception)
             {
-                Debug.WriteLine("[DataBaseProfile.Update()] Error: " + exception.Message);
+                Debug.WriteLine("[DatabaseTask.Delete()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
             }
@@ -157,7 +189,7 @@ namespace DataBaseLib
                                        $"'{newObject.IsClosed}')";
             string commandGetLastAddIndex = "SELECT IDENT_CURRENT('Task') AS [IDENT_CURRENT]";
 
-            int? lastIndex = null;
+            decimal? lastIndex = null;
 
             try
             {
@@ -169,11 +201,14 @@ namespace DataBaseLib
                 using (SqlCommand cmd = new SqlCommand(commandGetLastAddIndex, client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
-                    lastIndex = dataReader.GetInt32(0);
+                    while (dataReader.Read())
+                    {
+                        lastIndex = dataReader.GetDecimal(0);
+                    }
                 }
                 client.CloseConnection();
-                var insertTypeTask = InsertTypeTask(lastIndex, newObject.Types);
-                var insertProfileTask = InsertProfileTask(idProfile);
+                var insertTypeTask = InsertTypeTask((int?)lastIndex, newObject.Types);
+                var insertProfileTask = InsertProfileTask(idProfile, (int?)lastIndex);
 
                 return true;
             }
@@ -185,38 +220,10 @@ namespace DataBaseLib
             }
         }
 
-        // TODO: Получить все типы
-        public Task<List<TypeDTO>> GetAllType()
+        private async Task<List<TypeDTO>> GetTypesTask(int taskId)
         {
-            throw new NotImplementedException();
-        }
-
-        private async Task<List<TypeDTO>> GetTypesTask(int id)
-        {
-            client.CloseConnection();
-            string commandGetTypesTask = "SELECT [Type].ID, [Type].Title FROM [Type], Task, Type_Task " +
-                                         $"WHERE[Type].ID = Type_Task.IDType AND Task.ID = Type_Task.IDTask AND Task.ID = {id}";
-            var types = new List<TypeDTO>();
-            try
-            {
-                using (SqlCommand cmd = new SqlCommand(commandGetTypesTask, client.OpenConnection()))
-                {
-                    SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
-                    while (dataReader.Read())
-                    {
-                        var type = new TypeDTO(dataReader.GetInt32(0), dataReader.GetString(1));
-                        types.Add(type);
-                    }
-                }
-                client.CloseConnection();
-                return types;
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine("[DataBaseTask.GetTypesTask()] Error: " + exception.Message);
-                client.CloseConnection();
-                return null;
-            }
+            var databaseType = new DatabaseType();
+            return await databaseType.GetTypesTask(taskId);
         }
 
         private async Task<List<IntervalDTO>> GetIntervalsTask(int id)
@@ -249,23 +256,19 @@ namespace DataBaseLib
 
         private async Task<bool> InsertTypeTask(int? lastIndexTask, List<TypeDTO> types)
         {
-            client.CloseConnection();
-            string commandInsertTypeTask = $"INSERT Type_Task (IDTask, IDType) VALUES (@IDTask, @IDType)";
-           
             try
             {
                 if (lastIndexTask != null)
                 {
-                    using (SqlCommand cmd = new SqlCommand(commandInsertTypeTask, client.OpenConnection()))
+                    foreach (var type in types)
                     {
-                        foreach (var type in types)
+                        string commandInsertTypeTask = $"INSERT Type_Task VALUES ({lastIndexTask}, {type.Id})";
+                        using (SqlCommand cmd = new SqlCommand(commandInsertTypeTask, client.OpenConnection()))
                         {
-                            cmd.Parameters.AddWithValue("@IDTask", lastIndexTask);
-                            cmd.Parameters.AddWithValue("@IDType", type.Id);
-                            var row = await cmd.ExecuteNonQueryAsync();
+                            cmd.ExecuteNonQuery();
                         }
+                        client.CloseConnection();
                     }
-                    client.CloseConnection();
                     return true;
                 }
                 else
@@ -281,16 +284,16 @@ namespace DataBaseLib
             }
         }
 
-        private async Task<bool> InsertProfileTask(int idProfile)
+        private async Task<bool> InsertProfileTask(int idProfile, int? idTask)
         {
             client.CloseConnection();
-            string commandInsertProfileTask = $"INSERT Profile_Task VALUES ( 1, {idProfile} )";
+            string commandInsertProfileTask = $"INSERT Profile_Task VALUES ( {idProfile}, {idTask} )";
 
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandInsertProfileTask, client.OpenConnection()))
                 {
-                    cmd.ExecuteNonQuery();
+                    var row = await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();
                 return true;

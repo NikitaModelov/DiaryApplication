@@ -5,6 +5,7 @@
     xmlns:local="using:DiaryApplication.Tasks.AddTask.Presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:DiaryApplication.Core.Model"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -14,9 +15,33 @@
                 <TextBlock Text="Создать задачу"
                            Style="{StaticResource HeaderTextBlockStyle}"/>
             </StackPanel>
-            <TextBox Margin="0,20,0,0" Header="Заголовок"/>
-            <TextBox Margin="0,14,0,0" Header="Краткое описание"/>
-            <TextBox Margin="0,14,0,0" Header="Описание" TextWrapping="Wrap"/>
+            <TextBox Margin="0,20,0,0" Header="Заголовок"
+                     Text="{x:Bind ViewModel.Title, Mode=TwoWay}"/>
+            <TextBox Margin="0,14,0,0" Header="Краткое описание"
+                     Text="{x:Bind ViewModel.Subtitle, Mode=TwoWay}"/>
+            <TextBox Margin="0,14,0,0" Header="Описание" TextWrapping="Wrap"
+                     Text="{x:Bind ViewModel.Description, Mode=TwoWay}"/>
+            <TextBlock Margin="0,14,0,0" Text="Выберете тип" Style="{StaticResource BodyTextBlockStyle}"/>
+            <GridView SelectionMode="Multiple"
+                      x:Name="MyGridView"
+                      SelectionChanged="SelectItems_OnSelectionChanged"
+                      ItemsSource="{x:Bind ViewModel.Types, Mode=OneWay}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="model:TypeEntity">
+                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" Width="160" Margin="20"/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
+            <Button Content="Создать" HorizontalAlignment="Right"
+                    Click="NavigateToInfoTask_OnClick"
+                    Command="{x:Bind Path=ViewModel.CreateTaskCommand, Mode=OneWay}"
+                    />
         </StackPanel>
+        
     </Grid>
 </Page>

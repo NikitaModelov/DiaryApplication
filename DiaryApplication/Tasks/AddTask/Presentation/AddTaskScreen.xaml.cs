@@ -1,30 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using DiaryApplication.Tasks.AddTask.Domain;
 
-// Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace DiaryApplication.Tasks.AddTask.Presentation
 {
-    /// <summary>
-    /// Пустая страница, которую можно использовать саму по себе или для перехода внутри фрейма.
-    /// </summary>
+
     public sealed partial class AddTaskScreen : Page
     {
+        public AddTaskViewModel ViewModel { get; private set; }
+
         public AddTaskScreen()
         {
             this.InitializeComponent();
+            ViewModel = new AddTaskViewModel(new SendTaskUseCase(), new GetTypeUseCase());
+        }
+
+        private void NavigateToInfoTask_OnClick(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void SelectItems_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ViewModel.SetSelectedTypes(MyGridView.SelectedItems.ToList());
         }
     }
 }

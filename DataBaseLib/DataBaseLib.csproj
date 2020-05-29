@@ -123,9 +123,11 @@
     <Compile Include="DatabaseConnection.cs" />
     <Compile Include="DatabaseProfile.cs" />
     <Compile Include="DatabaseTask.cs" />
+    <Compile Include="DatabaseType.cs" />
     <Compile Include="IDatabase.cs" />
     <Compile Include="IDatabaseProfile.cs" />
     <Compile Include="IDatabaseTask.cs" />
+    <Compile Include="IDatabaseType.cs" />
     <Compile Include="IntervalDTO.cs" />
     <Compile Include="ProfileDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
