@@ -64,16 +64,18 @@ namespace DataBaseLib
                 using (SqlCommand cmd = new SqlCommand(commandSelect, client.OpenConnection()))
                 {
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
+                    while (dataReader.Read())
+                    {
+                        var id = dataReader.GetInt32(0);
+                        var title = dataReader.GetString(1);
+                        var subtitle = dataReader.GetString(2);
+                        var description = dataReader.GetString(3);
+                        var addTime = dataReader.GetDateTime(4);
+                        var lastChangeTime = dataReader.GetDateTime(5);
+                        var isClosed = dataReader.GetBoolean(6);
 
-                    var id = dataReader.GetInt32(0);
-                    var title = dataReader.GetString(1);
-                    var subtitle = dataReader.GetString(2);
-                    var description = dataReader.GetString(3);
-                    var addTime = dataReader.GetDateTime(4);
-                    var lastChangeTime = dataReader.GetDateTime(5);
-                    var isClosed = dataReader.GetBoolean(6);
-
-                    task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
+                        task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
+                    }
                 }
                 task.SetTypes(await GetTypesTask(task.Id));
                 task.SetIntervals(await GetIntervalsTask(task.Id));
@@ -132,7 +134,7 @@ namespace DataBaseLib
             }
         }
 
-        public async Task<bool> Update(int id, TaskEntityDTO newObject)
+        public async Task<bool> Update(TaskEntityDTO newObject)
         {
             string updateCommand = "UPDATE Task " +
                                    $"SET Title = '{newObject.Title}', " +
@@ -140,7 +142,7 @@ namespace DataBaseLib
                                    $"[Description] = '{newObject.Description}', " +
                                    $"LastChangeTime = '{newObject.LastChangeTime}', " +
                                    $"IsClosed = {newObject.IsClosed} " +
-                                   $"FROM(SELECT * FROM Task WHERE ID = {id}) AS Selected WHERE Task.ID = Selected.ID";
+                                   $"FROM(SELECT * FROM Task WHERE ID = {newObject.Id}) AS Selected WHERE Task.ID = Selected.ID";
 
             try
             {

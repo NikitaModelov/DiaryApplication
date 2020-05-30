@@ -76,11 +76,11 @@ namespace DataBaseLib
             }
         }
 
-        public async Task<bool> Update(int id, ProfileDTO newObject)
+        public async Task<bool> Update(ProfileDTO newObject)
         {
             string updateCommand =
                 $"UPDATE Profile SET FirstName='{newObject.FirstName}', SecondName='{newObject.SecondName}' " +
-                $"FROM (SELECT * FROM Profile WHERE ID = {id}) AS Selected WHERE Profile.ID = Selected.ID";
+                $"FROM (SELECT * FROM Profile WHERE ID = {newObject.Id}) AS Selected WHERE Profile.ID = Selected.ID";
 
             try
             {

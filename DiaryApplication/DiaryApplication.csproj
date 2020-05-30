@@ -145,6 +145,16 @@
       <DependentUpon>TaskScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Tasks\AllTasks\Presentation\TaskViewModel.cs" />
+    <Compile Include="Tasks\InfoTask\Data\IInfoTaskDataSource.cs" />
+    <Compile Include="Tasks\InfoTask\Data\Local\InfoTaskLocalDataSource.cs" />
+    <Compile Include="Tasks\InfoTask\Data\Repository\IInfoTaskRepository.cs" />
+    <Compile Include="Tasks\InfoTask\Data\Repository\InfoTaskRepository.cs" />
+    <Compile Include="Tasks\InfoTask\Domain\GetTaskByIdUseCase.cs" />
+    <Compile Include="Tasks\InfoTask\Domain\UpdateTaskUseCase.cs" />
+    <Compile Include="Tasks\InfoTask\Presentation\InfoTaskScreen.xaml.cs">
+      <DependentUpon>InfoTaskScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tasks\InfoTask\Presentation\InfoTaskViewModel.cs" />
     <Compile Include="User\Profile\Data\IProfileDataSource.cs" />
     <Compile Include="User\Profile\Data\IProfileRepository.cs" />
     <Compile Include="User\Profile\Data\Local\ProfileLocalDataSource.cs" />
@@ -219,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tasks\AllTasks\Presentation\TaskScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tasks\InfoTask\Presentation\InfoTaskScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,6 +3,7 @@ using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using DiaryApplication.Tasks.AddTask.Domain;
+using DiaryApplication.Tasks.InfoTask.Presentation;
 
 
 namespace DiaryApplication.Tasks.AddTask.Presentation
@@ -20,6 +21,7 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
 
         private void NavigateToInfoTask_OnClick(object sender, RoutedEventArgs e)
         {
+            
         }
 
         private void SelectItems_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

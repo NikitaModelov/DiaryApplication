@@ -110,7 +110,9 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
                             intervals: null));
                     if (response is Success<bool> responseWrapper && responseWrapper.Data)
                     {
-                        // TODO: Всё круто
+                        Title = "";
+                        Subtitle = "";
+                        Description = "";
                     }
                     else
                     {

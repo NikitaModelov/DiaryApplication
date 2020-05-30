@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="DiaryApplication.Tasks.InfoTask.Presentation.InfoTaskScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DiaryApplication.Tasks.InfoTask.Presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:DiaryApplication.Tasks.Data.Model"
+    xmlns:model1="using:DiaryApplication.Core.Model"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Top" Margin="20">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind ViewModel.TaskEntity.Title, Mode=OneWay}"
+                               Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <TextBlock Text="{x:Bind ViewModel.TaskEntity.LastChangeTime, Mode=OneWay}"
+                               Margin="20,0,0,0"
+                               VerticalAlignment="Bottom"
+                               Style="{StaticResource CaptionTextBlockStyle}" 
+                               Foreground="#FF6E6A6A"/>
+                </StackPanel>
+
+                <TextBlock x:Name="InfoSubTitle"
+                           Text="{x:Bind ViewModel.TaskEntity.Subtitle, Mode=OneWay}"
+                           Style="{StaticResource SubheaderTextBlockStyle}"/>
+                <TextBlock Margin="0,16,0,0" Text="Описание" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                <TextBlock Margin="0,16,0,0" 
+                           Text="{x:Bind ViewModel.TaskEntity.Description, Mode=OneWay}"
+                           Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                <StackPanel Margin="0,20,0,0" Orientation="Vertical">
+                    <TextBlock Text="Типы: " Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <GridView x:Name="MyGridView" ItemsSource="{x:Bind ViewModel.Types, Mode=OneWay}"
+                              SelectionMode="None">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="model1:TypeEntity">
+                                <TextBlock Text="{x:Bind Title}" Width="160" Margin="20"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                    </GridView>
+                </StackPanel>
+                <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                    <TextBlock Text="Средняя оценка задачи: " Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Margin="16,0,0,0" Text="Value" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Средние затраченое время: " Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Margin="16,0,0,0" Text="Value" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                </StackPanel>
+                <RelativePanel Margin="0,20,0,0" HorizontalAlignment="Left">
+                    <Button x:Name="ButtonAddTime" Content="+" Margin="14,0,0,0"
+                            RelativePanel.AlignBottomWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"/>
+                    <TextBlock x:Name="TimeLogLabel"
+                               RelativePanel.LeftOf="ButtonAddTime"
+                               RelativePanel.AlignLeftWithPanel="True"
+                               Text="Time Log" 
+                               Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    
+                </RelativePanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

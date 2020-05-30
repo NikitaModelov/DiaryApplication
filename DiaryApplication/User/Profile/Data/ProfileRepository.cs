@@ -18,11 +18,11 @@ namespace DiaryApplication.User.Profile.Data
         {
             localDataSource = new ProfileLocalDataSource();
         }
-        public async Task<IResponseWrapper> UpdateProfile(int id, Core.Model.Profile profile)
+        public async Task<IResponseWrapper> UpdateProfile(Core.Model.Profile profile)
         {
             try
             {
-                var response = await localDataSource.UpdateProfile(id, ProfileMapper.ConvertToDto(profile));
+                var response = await localDataSource.UpdateProfile(ProfileMapper.ConvertToDto(profile));
                 return new Success<bool>(response);
             }
             catch (Exception e)

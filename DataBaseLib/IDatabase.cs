@@ -7,7 +7,7 @@ namespace DataBaseLib
     {
         Task<List<T>> SelectAll();
         Task<T> SelectById(int id);
-        Task<V> Update(int id, T newObject);
+        Task<V> Update(T newObject);
         Task<V> Delete(int id);
     }
 }

@@ -9,7 +9,7 @@ namespace DiaryApplication.User.Profile.Data
 {
     interface IProfileDataSource
     {
-        Task<bool> UpdateProfile(int id, ProfileDTO profile);
+        Task<bool> UpdateProfile(ProfileDTO profile);
         Task<ProfileDTO> GetProfileById(int id);
     }
 }

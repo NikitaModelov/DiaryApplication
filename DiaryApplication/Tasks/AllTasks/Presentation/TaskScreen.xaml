@@ -20,7 +20,8 @@
         </StackPanel>
 
         <ListView ItemsSource="{x:Bind ViewModel.Tasks, Mode=OneWay}"
-                  x:Name="GridView"
+                  SelectionChanged="SelectItem_OnSelectionChanged"
+                  x:Name="TaskListView"
                   Margin="20,100,20,20" HorizontalAlignment="Stretch" >
             <ListView.ItemTemplate>
                 <DataTemplate x:Name="TripleLineDataTemplate" x:DataType="model:TaskEntity">

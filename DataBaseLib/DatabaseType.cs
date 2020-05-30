@@ -68,11 +68,11 @@ namespace DataBaseLib
             }
         }
 
-        public async Task<bool> Update(int id, TypeDTO newObject)
+        public async Task<bool> Update(TypeDTO newObject)
         {
             string updateCommand =
                 $"UPDATE [Type] SET Title='{newObject.Title}' " +
-                $"FROM (SELECT * FROM [Type] WHERE ID = {id}) AS Selected WHERE [Type].ID = Selected.ID";
+                $"FROM (SELECT * FROM [Type] WHERE ID = {newObject.Id}) AS Selected WHERE [Type].ID = Selected.ID";
 
             try
             {

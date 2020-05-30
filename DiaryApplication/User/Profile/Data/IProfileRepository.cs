@@ -5,7 +5,7 @@ namespace DiaryApplication.User.Profile.Data
 {
     interface IProfileRepository
     {
-        Task<IResponseWrapper> UpdateProfile(int id, Core.Model.Profile profile);
+        Task<IResponseWrapper> UpdateProfile(Core.Model.Profile profile);
         Task<IResponseWrapper> GetProfileById(int id);
     }
 }

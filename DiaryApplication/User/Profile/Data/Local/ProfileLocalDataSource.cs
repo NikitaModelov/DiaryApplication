@@ -16,9 +16,9 @@ namespace DiaryApplication.User.Profile.Data.Local
             database = new DatabaseProfile();
         }
 
-        public async Task<bool> UpdateProfile(int id, ProfileDTO profile)
+        public async Task<bool> UpdateProfile(ProfileDTO profile)
         {
-            return await database.Update(id, profile);
+            return await database.Update(profile);
         }
 
         public async Task<ProfileDTO> GetProfileById(int id)
