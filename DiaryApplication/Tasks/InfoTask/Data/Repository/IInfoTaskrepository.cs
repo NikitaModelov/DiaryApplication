@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DiaryApplication.Core.Model;
 using DiaryApplication.Core.ResponseWrapper;
 using DiaryApplication.Tasks.Data.Model;
 
@@ -8,5 +9,6 @@ namespace DiaryApplication.Tasks.InfoTask.Data.Repository
     {
         Task<IResponseWrapper> GetTaskById(int idTask);
         Task<IResponseWrapper> UpdateTask(TaskEntity task);
+        Task<IResponseWrapper> AddInterval(int idTask, Interval interval);
     }
 }

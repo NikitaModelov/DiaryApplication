@@ -149,6 +149,7 @@
     <Compile Include="Tasks\InfoTask\Data\Local\InfoTaskLocalDataSource.cs" />
     <Compile Include="Tasks\InfoTask\Data\Repository\IInfoTaskRepository.cs" />
     <Compile Include="Tasks\InfoTask\Data\Repository\InfoTaskRepository.cs" />
+    <Compile Include="Tasks\InfoTask\Domain\AddIntervalUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Domain\GetTaskByIdUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Domain\UpdateTaskUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Presentation\InfoTaskScreen.xaml.cs">

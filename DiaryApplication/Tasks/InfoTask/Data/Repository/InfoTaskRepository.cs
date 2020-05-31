@@ -20,6 +20,7 @@ namespace DiaryApplication.Tasks.InfoTask.Data.Repository
         {
             localDataSource = new InfoTaskLocalDataSource();
         }
+
         public async Task<IResponseWrapper> GetTaskById(int idTask)
         {
             try
@@ -43,6 +44,20 @@ namespace DiaryApplication.Tasks.InfoTask.Data.Repository
             catch (Exception e)
             {
                 return new Error(e.Message);
+            }
+        }
+
+        public async Task<IResponseWrapper> AddInterval(int idTask, Interval interval)
+        {
+            try
+            {
+                var response = await localDataSource.AddInterval(idTask, IntervalMapper.ConvertToDto(interval));
+                return new Success<bool>(response);
+            }
+            catch (Exception e)
+            {
+                return new Error(e.Message);
+
             }
         }
     }

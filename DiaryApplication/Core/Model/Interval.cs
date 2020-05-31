@@ -13,6 +13,11 @@ namespace DiaryApplication.Core.Model
         public DateTime FinishTime { get; private set; }
         public double Rating { get; private set; }
 
+        public string StartDate
+        {
+            get => GetDate();
+        }
+
         public Interval() { }
 
         public Interval(int id, DateTime startTime, DateTime finishTime, double rating)
@@ -28,6 +33,11 @@ namespace DiaryApplication.Core.Model
             StartTime = startTime;
             FinishTime = finishTime;
             Rating = rating;
+        }
+
+        public string GetDate()
+        {
+            return StartTime.ToShortDateString();
         }
     }
 }

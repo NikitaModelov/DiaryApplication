@@ -57,14 +57,41 @@
                 <RelativePanel Margin="0,20,0,0" HorizontalAlignment="Left">
                     <Button x:Name="ButtonAddTime" Content="+" Margin="14,0,0,0"
                             RelativePanel.AlignBottomWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True"/>
+                            RelativePanel.AlignRightWithPanel="True">
+                        <Button.Flyout>
+                            <Flyout>
+                                <StackPanel Width="400">
+                                    <DatePicker Header="Дата" Name="DateToday" Date="{x:Bind ViewModel.DateNow, Mode=TwoWay}" />
+                                    <TimePicker Header="Начал" Time="{x:Bind ViewModel.StartTimeOffset, Mode=TwoWay}"/>
+                                    <TimePicker Header="Закончил" Time="{x:Bind ViewModel.FinishTimeOffset, Mode=TwoWay}"/>
+                                    <TextBox Header="Рейтинг"/>
+                                    <Button Content="Добавить" Command="{x:Bind ViewModel.AddIntervalCommand, Mode=OneWay}"/>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
                     <TextBlock x:Name="TimeLogLabel"
                                RelativePanel.LeftOf="ButtonAddTime"
                                RelativePanel.AlignLeftWithPanel="True"
                                Text="Time Log" 
                                Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    
                 </RelativePanel>
+                <ListBox ItemsSource="{x:Bind ViewModel.Intervals, Mode=OneWay}" Margin="0,20,0,0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="model1:Interval">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Дата: "/>
+                                <TextBlock Margin="14,0,0,0" Text="{x:Bind StartDate, Mode=OneWay}"/>
+                                <TextBlock Margin="20,0,0,0" Text="Время начала: "/>
+                                <TextBlock Margin="14,0,0,0" Text="{x:Bind StartTime.TimeOfDay, Mode=OneWay}"/>
+                                <TextBlock  Margin="20,0,0,0" Text="Финиш: "/>
+                                <TextBlock Margin="14,0,0,0" Text="{x:Bind FinishTime.TimeOfDay, Mode=OneWay}"/>
+                                <TextBlock  Margin="20,0,0,0" Text="Рейтинг: "/>
+                                <TextBlock Margin="14,0,0,0" Text="{x:Bind Rating, Mode=OneWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </StackPanel>
     </Grid>

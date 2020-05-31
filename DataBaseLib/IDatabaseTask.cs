@@ -7,5 +7,6 @@ namespace DataBaseLib
     {
         Task<List<T>> GetTaskByProfile(int idProfile);
         Task<V> Create(int idProfile, T newObject);
+        
     }
 }

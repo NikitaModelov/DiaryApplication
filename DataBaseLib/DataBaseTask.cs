@@ -38,7 +38,7 @@ namespace DataBaseLib
                         tasks.Add(task);
                     }
                 }
-                
+
                 foreach (var task in tasks)
                 {
                     task.SetTypes(await GetTypesTask(task.Id));
@@ -221,6 +221,8 @@ namespace DataBaseLib
                 return false;
             }
         }
+
+        
 
         private async Task<List<TypeDTO>> GetTypesTask(int taskId)
         {

@@ -121,10 +121,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DatabaseConnection.cs" />
+    <Compile Include="DatabaseInterval.cs" />
     <Compile Include="DatabaseProfile.cs" />
     <Compile Include="DatabaseTask.cs" />
     <Compile Include="DatabaseType.cs" />
     <Compile Include="IDatabase.cs" />
+    <Compile Include="IDatabaseInterval.cs" />
     <Compile Include="IDatabaseProfile.cs" />
     <Compile Include="IDatabaseTask.cs" />
     <Compile Include="IDatabaseType.cs" />

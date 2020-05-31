@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using DiaryApplication.Tasks.InfoTask.Domain;
 
@@ -10,12 +11,13 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
         public InfoTaskScreen()
         {
             this.InitializeComponent();
+            DateToday.MaxYear = DateTimeOffset.Now;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter != null)
-                ViewModel = new InfoTaskViewModel((int)e.Parameter, new GetTaskByIdUseCase());
+                ViewModel = new InfoTaskViewModel((int)e.Parameter, new GetTaskByIdUseCase(), new AddIntervalUseCase());
         }
     }
 }
