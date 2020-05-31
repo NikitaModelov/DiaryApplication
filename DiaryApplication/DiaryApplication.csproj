@@ -122,6 +122,7 @@
     <Compile Include="Core\Model\Interval.cs" />
     <Compile Include="Core\Model\TypeEntity.cs" />
     <Compile Include="Core\Session.cs" />
+    <Compile Include="Core\Statistic.cs" />
     <Compile Include="Core\Status.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -150,6 +151,8 @@
     <Compile Include="Tasks\InfoTask\Data\Repository\IInfoTaskRepository.cs" />
     <Compile Include="Tasks\InfoTask\Data\Repository\InfoTaskRepository.cs" />
     <Compile Include="Tasks\InfoTask\Domain\AddIntervalUseCase.cs" />
+    <Compile Include="Tasks\InfoTask\Domain\CloseTaskUseCase.cs" />
+    <Compile Include="Tasks\InfoTask\Domain\DeleteIntervalUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Domain\GetTaskByIdUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Domain\UpdateTaskUseCase.cs" />
     <Compile Include="Tasks\InfoTask\Presentation\InfoTaskScreen.xaml.cs">

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
 using DiaryApplication.Core.ResponseWrapper;
 using DiaryApplication.Tasks.Data.Model;
@@ -15,6 +16,8 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
         private readonly GetTaskByIdUseCase getTaskByIdUseCase;
         private readonly AddIntervalUseCase addIntervalUseCase;
         private readonly UpdateTaskUseCase updateTaskUseCase;
+        private readonly CloseTaskUseCase closeTaskUseCase;
+        private readonly DeleteIntervalUseCase deleteIntervalUseCase;
 
         private ObservableCollection<Interval> intervals;
         public ObservableCollection<Interval> Intervals
@@ -38,7 +41,6 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
         }
 
         private double rating;
-
         public double Rating
         {
             get => rating;
@@ -72,16 +74,71 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             }
         }
 
+        private Interval selectedInterval;
+        public Interval SelectedInterval
+        {
+            get => selectedInterval;
+            set => Set(ref selectedInterval, value);
+        }
+
+        private TimeSpan allTime;
+        public TimeSpan AllTime
+        {
+            get => allTime;
+            set => Set(ref allTime, value);
+        }
+
+        private string title;
+        public string Title
+        {
+            get => title;
+            set => Set(ref title, value);
+        }
+
+        private string subtitle;
+        public string Subtitle
+        {
+            get => subtitle;
+            set => Set(ref subtitle, value);
+        }
+
+        private string description;
+        public string Description
+        {
+            get => description;
+            set => Set(ref description, value);
+        }
 
         private DiaryCommand addIntervalCommand;
-
         public DiaryCommand AddIntervalCommand =>
             addIntervalCommand ?? new DiaryCommand(() => AddInterval());
 
-        public InfoTaskViewModel(int idTask, GetTaskByIdUseCase getTaskByIdUseCase, AddIntervalUseCase addIntervalUseCase)
+        private DiaryCommand deleteIntervalCommand;
+        public DiaryCommand DeleteIntervalCommand =>
+            deleteIntervalCommand ?? new DiaryCommand(() => DeleteInterval(selectedInterval));
+
+        private DiaryCommand updateTaskCommand;
+        public DiaryCommand UpdateTaskCommand => updateTaskCommand ??
+                                                 new DiaryCommand(() => UpdateTask());
+
+        private DiaryCommand closeTaskCommand;
+
+        public DiaryCommand CloseTaskCommand => closeTaskCommand ??
+                                                new DiaryCommand(() => CloseTask());
+
+        public InfoTaskViewModel(
+            int idTask,
+            GetTaskByIdUseCase getTaskByIdUseCase, 
+            AddIntervalUseCase addIntervalUseCase,
+            DeleteIntervalUseCase deleteIntervalUseCase,
+            UpdateTaskUseCase updateTaskUseCase,
+            CloseTaskUseCase closeTaskUseCase)
         {
+            this.updateTaskUseCase = updateTaskUseCase;
+            this.closeTaskUseCase = closeTaskUseCase;
             this.getTaskByIdUseCase = getTaskByIdUseCase;
             this.addIntervalUseCase = addIntervalUseCase;
+            this.deleteIntervalUseCase = deleteIntervalUseCase;
             GetTask(idTask);
         }
 
@@ -95,6 +152,12 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
                     TaskEntity = responseWrapper.Data;
                     Types = new ObservableCollection<TypeEntity>(TaskEntity.Types);
                     Intervals = new ObservableCollection<Interval>(TaskEntity.Intervals);
+                    AllTime = Statistic.GetAllTime(TaskEntity.Intervals);
+                    Rating = Statistic.GetAverageRating(TaskEntity.Intervals);
+
+                    Title = TaskEntity.Title;
+                    Subtitle = TaskEntity.Subtitle;
+                    Description = TaskEntity.Description;
                 }
             }
             catch (Exception e)
@@ -113,6 +176,58 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             if (response is Success<bool> responseWrapper && responseWrapper.Data)
             {
                 await GetTask(TaskEntity.Id);
+            }
+            else
+            {
+                // TODO: я Ошибка
+            }
+        }
+
+        private async Task DeleteInterval(Interval interval)
+        {
+            var response =
+                await deleteIntervalUseCase.DeleteInterval(interval.Id);
+            if (response is Success<bool> responseWrapper && responseWrapper.Data)
+            {
+                await GetTask(TaskEntity.Id);
+            }
+            else
+            {
+                // TODO: я Ошибка
+            }
+        }
+
+        private async Task UpdateTask()
+        {
+            if (Title.Length != 0 && Subtitle.Length != 0 && Description.Length != 0)
+            {
+                var response =
+                    await updateTaskUseCase.Update(new TaskEntity(
+                        id: TaskEntity.Id,
+                        title: Title,
+                        subtitle: Subtitle,
+                        description: Description,
+                        lastChangeTime: DateTime.Now,
+                        isClosed: false,
+                        types: TaskEntity.Types));
+                if (response is Success<bool> responseWrapper && responseWrapper.Data)
+                {
+                    await GetTask(TaskEntity.Id);
+                }
+                else
+                {
+                    // TODO: я Ошибка
+                }
+            }
+        }
+
+        private async Task CloseTask()
+        {
+            var response =
+                await closeTaskUseCase.CloseTask(TaskEntity.Id, true);
+            if (response is Success<bool> responseWrapper && responseWrapper.Data)
+            {
+                // TODO: успех
             }
             else
             {

@@ -60,5 +60,29 @@ namespace DiaryApplication.Tasks.Data.Model
             Types = types;
             Intervals = intervals;
         }
+
+        public TaskEntity(
+            int id,
+            string title,
+            string subtitle,
+            string description,
+            DateTime lastChangeTime,
+            bool isClosed,
+            List<TypeEntity> types)
+        {
+            Id = id;
+            Title = title;
+            Subtitle = subtitle;
+            Description = description;
+            LastChangeTime = lastChangeTime;
+            IsClosed = isClosed;
+            Types = types;
+        }
+
+        public TaskEntity CloseTask()
+        {
+            IsClosed = true;
+            return this;
+        }
     }
 }

@@ -31,9 +31,25 @@ namespace DataBaseLib
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var command = $"DELETE [Task_Interval] WHERE ID = {id}";
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                client.CloseConnection();
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("[DatabaseTask.InsertInterval()] Error: " + e.Message);
+                client.CloseConnection();
+                return false;
+            }
         }
 
         public async Task<bool> InsertInterval(int idTask, IntervalDTO interval)

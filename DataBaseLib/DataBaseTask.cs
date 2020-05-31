@@ -17,7 +17,7 @@ namespace DataBaseLib
 
         public async Task<List<TaskEntityDTO>> SelectAll()
         {
-            var command = "SELECT * FROM Task";
+            var command = "SELECT * FROM Task WHERE IsClosed = 0";
             var tasks = new List<TaskEntityDTO>();
             try
             {
@@ -95,7 +95,7 @@ namespace DataBaseLib
             client.CloseConnection();
             string command = "SELECT Task.ID, Task.Title, Task.Subtitle, Task.[Description], Task.AddTime, Task.LastChangeTime, Task.IsClosed " +
                                              "FROM [Profile_Task], Task " +
-                                             $"WHERE Profile_Task.IDProfile = {idProfile} AND Profile_Task.IDTask = Task.ID ";
+                                             $"WHERE Profile_Task.IDProfile = {idProfile} AND Profile_Task.IDTask = Task.ID AND Task.IsClosed = 0";
 
             var tasks = new List<TaskEntityDTO>();
             try
@@ -136,12 +136,13 @@ namespace DataBaseLib
 
         public async Task<bool> Update(TaskEntityDTO newObject)
         {
+            var isClosed = newObject.IsClosed ? 1 : 0;
             string updateCommand = "UPDATE Task " +
                                    $"SET Title = '{newObject.Title}', " +
                                    $"Subtitle = '{newObject.Subtitle}', " +
                                    $"[Description] = '{newObject.Description}', " +
                                    $"LastChangeTime = '{newObject.LastChangeTime}', " +
-                                   $"IsClosed = {newObject.IsClosed} " +
+                                   $"IsClosed = {isClosed} " +
                                    $"FROM(SELECT * FROM Task WHERE ID = {newObject.Id}) AS Selected WHERE Task.ID = Selected.ID";
 
             try
@@ -222,7 +223,28 @@ namespace DataBaseLib
             }
         }
 
-        
+        public async Task<bool> CloseTask(int idTask, bool isClosed)
+        {
+            var isClosedValue = isClosed ? 1 : 0;
+            var command = $"UPDATE Task SET IsClosed = {isClosedValue}" +
+                          $" FROM (SELECT * FROM Task WHERE ID = {idTask}) AS Selected WHERE Task.ID = Selected.ID";
+            try
+            {
+                using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
+                {
+                    var row = await cmd.ExecuteNonQueryAsync();
+                }
+                client.CloseConnection();
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine("[DatabaseTask.CloseTask()] Error: " + exception.Message);
+                client.CloseConnection();
+                return false;
+            }
+        }
+
 
         private async Task<List<TypeDTO>> GetTypesTask(int taskId)
         {

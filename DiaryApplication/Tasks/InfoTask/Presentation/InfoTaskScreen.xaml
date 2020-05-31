@@ -14,22 +14,42 @@
         <StackPanel VerticalAlignment="Top" Margin="20">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
                     <TextBlock Text="{x:Bind ViewModel.TaskEntity.Title, Mode=OneWay}"
-                               Style="{StaticResource HeaderTextBlockStyle}"/>
+                                   x:Name="TitleLavel"
+                                   Style="{StaticResource HeaderTextBlockStyle}"/>
+                    <TextBox Text="{x:Bind ViewModel.Title, Mode=TwoWay}"
+                                   x:Name="TitleTextBox"
+                                   Header="Заголовок"
+                                   Visibility="Collapsed"/>
                     <TextBlock Text="{x:Bind ViewModel.TaskEntity.LastChangeTime, Mode=OneWay}"
                                Margin="20,0,0,0"
+                               x:Name="LastChangeTimeLabel"
                                VerticalAlignment="Bottom"
                                Style="{StaticResource CaptionTextBlockStyle}" 
                                Foreground="#FF6E6A6A"/>
+                    <AppBarButton Icon="Edit" Click="EditButton_OnClick"/>
                 </StackPanel>
 
                 <TextBlock x:Name="InfoSubTitle"
                            Text="{x:Bind ViewModel.TaskEntity.Subtitle, Mode=OneWay}"
                            Style="{StaticResource SubheaderTextBlockStyle}"/>
+                <TextBox x:Name="InfoSubTextBox"
+                         Header="Краткое описание"
+                         Visibility="Collapsed"
+                         Text="{x:Bind ViewModel.Subtitle, Mode=TwoWay}"/>
                 <TextBlock Margin="0,16,0,0" Text="Описание" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 <TextBlock Margin="0,16,0,0" 
+                           x:Name="DescriptionLabel"
                            Text="{x:Bind ViewModel.TaskEntity.Description, Mode=OneWay}"
                            Style="{StaticResource BodyTextBlockStyle}" TextWrapping="Wrap"/>
+                <TextBox Margin="0,16,0,0" 
+                         x:Name="DescriptionTextBox"
+                         Visibility="Collapsed"
+                         Text="{x:Bind ViewModel.Description, Mode=TwoWay}"
+                         TextWrapping="Wrap"/>
+
+                <!-- Типы -->
                 <StackPanel Margin="0,20,0,0" Orientation="Vertical">
                     <TextBlock Text="Типы: " Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <GridView x:Name="MyGridView" ItemsSource="{x:Bind ViewModel.Types, Mode=OneWay}"
@@ -46,9 +66,22 @@
                         </GridView.ItemsPanel>
                     </GridView>
                 </StackPanel>
+
+                <Button Content="Сохранить" 
+                        Command="{x:Bind ViewModel.UpdateTaskCommand, Mode=OneWay}"
+                        x:Name="ButtonSaveEdit"
+                        HorizontalAlignment="Right" 
+                        Click="SaveEditButton_OnClick" Visibility="Collapsed"/>
+
+
+
                 <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
                     <TextBlock Text="Средняя оценка задачи: " Style="{StaticResource SubtitleTextBlockStyle}"/>
-                    <TextBlock Margin="16,0,0,0" Text="Value" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Margin="16,0,0,0" Text="{x:Bind ViewModel.Rating, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Общие время: " Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Margin="16,0,0,0" Text="{x:Bind ViewModel.AllTime, Mode=OneWay}" Style="{StaticResource SubtitleTextBlockStyle}"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Средние затраченое время: " Style="{StaticResource SubtitleTextBlockStyle}"/>
@@ -64,7 +97,7 @@
                                     <DatePicker Header="Дата" Name="DateToday" Date="{x:Bind ViewModel.DateNow, Mode=TwoWay}" />
                                     <TimePicker Header="Начал" Time="{x:Bind ViewModel.StartTimeOffset, Mode=TwoWay}"/>
                                     <TimePicker Header="Закончил" Time="{x:Bind ViewModel.FinishTimeOffset, Mode=TwoWay}"/>
-                                    <TextBox Header="Рейтинг"/>
+                                    <TextBox Header="Рейтинг" Text="{x:Bind ViewModel.Rating, Mode=TwoWay}"/>
                                     <Button Content="Добавить" Command="{x:Bind ViewModel.AddIntervalCommand, Mode=OneWay}"/>
                                 </StackPanel>
                             </Flyout>
@@ -76,7 +109,15 @@
                                Text="Time Log" 
                                Style="{StaticResource SubtitleTextBlockStyle}"/>
                 </RelativePanel>
-                <ListBox ItemsSource="{x:Bind ViewModel.Intervals, Mode=OneWay}" Margin="0,20,0,0">
+                <ListBox ItemsSource="{x:Bind ViewModel.Intervals, Mode=OneWay}" Margin="0,20,0,0"
+                         SelectedItem="{x:Bind ViewModel.SelectedInterval, Mode=TwoWay}"
+                         x:Name="ListBoxInterval">
+                    <ListBox.ContextFlyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Удалить" Command="{x:Bind ViewModel.DeleteIntervalCommand, Mode=OneWay}"
+                                            CommandParameter="{x:Bind ListBoxInterval.SelectedItem, Mode=OneWay}"/>
+                        </MenuFlyout>
+                    </ListBox.ContextFlyout>
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="model1:Interval">
                             <StackPanel Orientation="Horizontal">
@@ -93,6 +134,9 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
+            <Button Content="Закрыть задачу" HorizontalAlignment="Stretch"
+                    Click="CloseTask_OnClick"
+                    Margin="0,20,0,0"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -60,5 +60,33 @@ namespace DiaryApplication.Tasks.InfoTask.Data.Repository
 
             }
         }
+
+        public async Task<IResponseWrapper> DeleteInterval(int idInterval)
+        {
+            try
+            {
+                var response = await localDataSource.DeleteInterval(idInterval);
+                return new Success<bool>(response);
+            }
+            catch (Exception e)
+            {
+                return new Error(e.Message);
+
+            }
+        }
+
+        public async Task<IResponseWrapper> CloseTask(int idTask, bool isClosed)
+        {
+            try
+            {
+                var response = await localDataSource.CloseTask(idTask, isClosed);
+                return new Success<bool>(response);
+            }
+            catch (Exception e)
+            {
+                return new Error(e.Message);
+
+            }
+        }
     }
 }

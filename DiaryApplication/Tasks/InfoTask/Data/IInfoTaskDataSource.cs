@@ -12,5 +12,7 @@ namespace DiaryApplication.Tasks.InfoTask.Data
         Task<TaskEntityDTO> GetTaskById(int idTask);
         Task<bool> UpdateTask(TaskEntityDTO task);
         Task<bool> AddInterval(int idTask, IntervalDTO interval);
+        Task<bool> DeleteInterval(int idInterval);
+        Task<bool> CloseTask(int idTask, bool isClosed);
     }
 }

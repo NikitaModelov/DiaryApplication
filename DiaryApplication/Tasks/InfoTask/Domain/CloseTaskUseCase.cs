@@ -4,23 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core.ResponseWrapper;
-using DiaryApplication.Tasks.Data.Model;
 using DiaryApplication.Tasks.InfoTask.Data.Repository;
 
 namespace DiaryApplication.Tasks.InfoTask.Domain
 {
-    public class UpdateTaskUseCase
+    public class CloseTaskUseCase
     {
         private readonly IInfoTaskRepository repository;
 
-        public UpdateTaskUseCase()
+        public CloseTaskUseCase()
         {
             repository = new InfoTaskRepository();
         }
 
-        public async Task<IResponseWrapper> Update(TaskEntity task)
+        public async Task<IResponseWrapper> CloseTask(int idTask, bool isClose)
         {
-            return await Task.Run(() => repository.UpdateTask(task));
+            return await Task.Run(() => repository.CloseTask(idTask, isClose));
         }
     }
 }
