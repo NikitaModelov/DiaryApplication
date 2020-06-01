@@ -15,9 +15,8 @@
                VerticalAlignment="Center">
             <StackPanel Grid.Column="1" Grid.Row="1" >
                 <TextBlock Text="Создание профиля" Style="{StaticResource HeaderTextBlockStyle}"/>
-                <ProgressBar Visibility="{x:Bind ViewModel.VisibleLoading, 
-                                 Mode=OneWay, Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}"
-                />
+                <TextBlock Foreground="Red" Text="Заполните все поля" Visibility="{x:Bind ViewModel.ShowError, Mode=OneWay, 
+                Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}"/>
                 <TextBox Margin="0,20,0,0" Header="Имя" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}"/>
                 <TextBox Margin="0,16,0,0" Header="Фамилия" Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}"/>
                 

@@ -40,7 +40,6 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
         }
 
         private string description;
-
         public string Description
         {
             get => description;
@@ -58,6 +57,14 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
             {
                 Set(ref types, value);
             }
+        }
+
+        private bool showErrorTypes;
+
+        public bool ShowErrorTypes
+        {
+            get => showErrorTypes;
+            set => Set(ref showErrorTypes, value);
         }
 
         private ObservableCollection<TypeEntity> selectedTypes;
@@ -78,11 +85,12 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
             var response = await getTypeUseCase.Get();
             if (response is Success<List<TypeEntity>> responseWrapper)
             {
+                showErrorTypes = false;
                 Types = new ObservableCollection<TypeEntity>(responseWrapper.Data);
             }
             else
             {
-                // TODO: Отобразить ошибку
+                showErrorTypes = true;
             }
         }
 

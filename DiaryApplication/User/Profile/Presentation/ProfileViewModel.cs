@@ -15,16 +15,42 @@ namespace DiaryApplication.User.Profile.Presentation
         private UpdateProfileUseCase updateProfileUseCase;
         private GetProfileUseCase getProfileUseCase;
 
-        private string firstName;
+        
         private string secondName;
         private Core.Model.Profile profile;
 
+        private bool showErrorFirstName = false;
+        public bool ShowErrorFirstName
+        {
+            get => showErrorFirstName;
+            set
+            {
+                Set(ref showErrorFirstName, value);
+            }
+        }
+
+        private bool showErrorSecondName = false;
+        public bool ShowErrorSecondName
+        {
+            get => showErrorSecondName;
+            set => Set(ref showErrorSecondName, value);
+        }
+
+        private string firstName;
         public string FirstName
         {
             get => firstName;
             set
             {
-                Set(ref firstName, value);
+                if (Validator.ValidateTextField(value, LengthText.NameLength))
+                {
+                    ShowErrorFirstName = false;
+                    Set(ref firstName, value);
+                }
+                else
+                {
+                    ShowErrorFirstName = true;
+                }
             }
         }
 
@@ -33,14 +59,23 @@ namespace DiaryApplication.User.Profile.Presentation
             get => secondName;
             set
             {
-                Set(ref secondName, value);
+                if (Validator.ValidateTextField(value, LengthText.NameLength))
+                {
+                    showErrorSecondName = false;
+                    Set(ref secondName, value);
+                }
+                else
+                {
+                    showErrorSecondName = true;
+                }
+                    
             }
         }
 
-        private DiaryCommandAsync updateDiaryCommandAsync;
+        private DiaryCommand updateDiaryCommandAsync;
 
-        public DiaryCommandAsync UpdateDiaryCommand => updateDiaryCommandAsync ??
-                                                       new DiaryCommandAsync(() => UpdateProfile());
+        public DiaryCommand UpdateDiaryCommand => updateDiaryCommandAsync ??
+                                                       new DiaryCommand(() => UpdateProfile());
 
         public ProfileViewModel(UpdateProfileUseCase updateProfileUseCase, GetProfileUseCase getProfileUseCase)
         {

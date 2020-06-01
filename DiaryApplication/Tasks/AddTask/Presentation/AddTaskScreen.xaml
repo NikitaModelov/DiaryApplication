@@ -6,9 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:DiaryApplication.Core.Model"
+    xmlns:utills="using:DiaryApplication.Utills"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <utills:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter"/>
+    </Page.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Top" Margin="20">
             <StackPanel Orientation="Horizontal" >
@@ -22,6 +25,9 @@
             <TextBox Margin="0,14,0,0" Header="Описание" TextWrapping="Wrap"
                      Text="{x:Bind ViewModel.Description, Mode=TwoWay}"/>
             <TextBlock Margin="0,14,0,0" Text="Выберете тип" Style="{StaticResource BodyTextBlockStyle}"/>
+            <TextBlock Text="При загрузке типов произошла ошибка." 
+                       Visibility="{x:Bind ViewModel.ShowErrorTypes, Mode=OneWay, 
+                                    Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" />
             <GridView SelectionMode="Multiple"
                       x:Name="MyGridView"
                       SelectionChanged="SelectItems_OnSelectionChanged"

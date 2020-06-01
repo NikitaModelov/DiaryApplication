@@ -194,14 +194,12 @@
     <Compile Include="User\SignUp\Presentation\SignUpViewModel.cs" />
     <Compile Include="Utills\BinableBase.cs" />
     <Compile Include="Utills\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Utills\Command\AsyncCommandBase.cs" />
-    <Compile Include="Utills\Command\DiaryCommandAsync.cs" />
-    <Compile Include="Utills\Command\IAsyncCommand.cs" />
     <Compile Include="Core\ResponseWrapper\Error.cs" />
     <Compile Include="Core\ResponseWrapper\IResponseWrapper.cs" />
     <Compile Include="Core\ResponseWrapper\Success.cs" />
     <Compile Include="Utills\TaskMapper.cs" />
     <Compile Include="Utills\TypeMapper.cs" />
+    <Compile Include="Utills\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

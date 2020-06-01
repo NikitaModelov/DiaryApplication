@@ -5,9 +5,12 @@
     xmlns:local="using:DiaryApplication"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utills="using:DiaryApplication.Utills"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <utills:BooleanToVisibilityConverter x:Name="BooleanToVisibilityConverter"/>
+    </Page.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Top" Margin="20">
             <StackPanel Orientation="Horizontal" >
@@ -28,8 +31,12 @@
         <StackPanel Orientation="Vertical"  Margin="20,120,20,20">
             <TextBox x:Name="FirstNameBox" Margin="0,20,0,0"
                      Header="Имя" Text="{x:Bind ViewModel.FirstName, Mode=TwoWay}" IsReadOnly="True"/>
+            <TextBlock Text="Имя не может быть пустым" Visibility="{x:Bind ViewModel.ShowErrorFirstName, Mode=OneWay, 
+                Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Foreground="Red"/>
             <TextBox x:Name="SecondNameBox" Margin="0,20,0,0" 
                      Header="Фамилия" Text="{x:Bind ViewModel.SecondName, Mode=TwoWay}" IsReadOnly="True"/>
+            <TextBlock Text="Фамилия не может быть пустым" Visibility="{x:Bind ViewModel.ShowErrorSecondName, Mode=OneWay, 
+                Converter={StaticResource ResourceKey=BooleanToVisibilityConverter}}" Foreground="Red"/>
             <Button Content="Сохранить изменения" HorizontalAlignment="Right"
                     x:Name="EditButton"
                     Command="{x:Bind ViewModel.UpdateDiaryCommand, Mode=OneWay}"

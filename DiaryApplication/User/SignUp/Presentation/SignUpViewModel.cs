@@ -12,17 +12,17 @@ namespace DiaryApplication.User.SignUp.Presentation
     {
         private readonly SendProfileUseCase sendProfileUseCase;
 
-        private string firstName;
-        private string secondName;
+        private string firstName = "";
+        private string secondName = "";
 
-        private bool visibleLoading;
+        private bool showError = false;
 
-        public bool VisibleLoading
+        public bool ShowError
         {
-            get => visibleLoading;
+            get => showError;
             set
             {
-                Set(ref visibleLoading, value);
+                Set(ref showError, value);
             }
         }
         public string FirstName
@@ -49,10 +49,10 @@ namespace DiaryApplication.User.SignUp.Presentation
             }
         }
 
-        private DiaryCommandAsync createProfileCommand;
+        private DiaryCommand createProfileCommand;
 
-        public DiaryCommandAsync CreateProfileCommand => createProfileCommand ??
-                                                         (createProfileCommand = new DiaryCommandAsync(() => CreateProfile()));
+        public DiaryCommand CreateProfileCommand => createProfileCommand ??
+                                                         (createProfileCommand = new DiaryCommand(() => CreateProfile()));
 
         public SignUpViewModel(SendProfileUseCase sendProfileUseCase)
         {
@@ -64,25 +64,24 @@ namespace DiaryApplication.User.SignUp.Presentation
         {
             if (FirstName.Length != 0 && SecondName.Length != 0)
             {
-                ShowLoadingData(true);
                 var response = await sendProfileUseCase.SendProfile(new Core.Model.Profile(FirstName, SecondName, null));
                 if (response is Success<bool> responseWrapper && responseWrapper.Data)
                 {
-                    ShowLoadingData(false);
+                    ShowError = false;
                 }
                 else
                 {
                     var errorMessage = (response as Error).Message;
+                    
                     Debug.WriteLine("[SignUpViewModel.CreateProfile()] Error: " + errorMessage);
-                    //TODO: Что-то делает при ошибке
+                    
                 }
 
             }
-        }
-
-        private void ShowLoadingData(bool value)
-        {
-            VisibleLoading = value;
+            else
+            {
+                ShowError = true;
+            }
         }
     }
 }
