@@ -51,7 +51,7 @@
 
                 <!-- Типы -->
                 <StackPanel Margin="0,20,0,0" Orientation="Vertical">
-                    <TextBlock Text="Типы: " Style="{StaticResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Text="Типы " Style="{StaticResource SubtitleTextBlockStyle}"/>
                     <GridView x:Name="MyGridView" ItemsSource="{x:Bind ViewModel.Types, Mode=OneWay}"
                               SelectionMode="None">
                         <GridView.ItemTemplate>

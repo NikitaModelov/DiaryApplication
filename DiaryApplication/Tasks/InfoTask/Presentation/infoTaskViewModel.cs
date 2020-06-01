@@ -33,7 +33,7 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             set => Set(ref types, value);
         }
 
-        private TaskEntity _taskEntity;
+       private TaskEntity _taskEntity;
         public TaskEntity TaskEntity
         {
             get => _taskEntity;
