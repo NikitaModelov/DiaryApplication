@@ -7,5 +7,6 @@ namespace DiaryApplication.User.Profile.Data
     {
         Task<IResponseWrapper> UpdateProfile(Core.Model.Profile profile);
         Task<IResponseWrapper> GetProfileById(int id);
+        Task<IResponseWrapper> GetProfileTasks(int id);
     }
 }

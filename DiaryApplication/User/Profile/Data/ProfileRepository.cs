@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core.ResponseWrapper;
+using DiaryApplication.Tasks.Data.Model;
 using DiaryApplication.User.Profile.Data.Local;
 using DiaryApplication.Utills;
 
@@ -42,6 +43,20 @@ namespace DiaryApplication.User.Profile.Data
             catch (Exception e)
             {
                 Debug.WriteLine("[ProfileRepository.GetProfileById()] Error: " + e.Message);
+                return new Error(e.Message);
+            }
+        }
+
+        public async Task<IResponseWrapper> GetProfileTasks(int id)
+        {
+            try
+            {
+                var response = await localDataSource.GetProfileTasks(id);
+                return new Success<List<TaskEntity>>(TaskMapper.ConvertFromListDto(response).ToList());
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("[ProfileRepository.GetProfileTasks()] Error: " + e.Message);
                 return new Error(e.Message);
             }
         }

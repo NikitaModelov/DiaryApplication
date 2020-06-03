@@ -164,6 +164,7 @@
     <Compile Include="User\Profile\Data\Local\ProfileLocalDataSource.cs" />
     <Compile Include="User\Profile\Data\ProfileRepository.cs" />
     <Compile Include="User\Profile\Domain\GetProfileUseCase.cs" />
+    <Compile Include="User\Profile\Domain\GetTasksUseCase.cs" />
     <Compile Include="User\Profile\Domain\UpdateProfileUseCase.cs" />
     <Compile Include="User\Profile\Presentation\ProfileScreen.xaml.cs">
       <DependentUpon>ProfileScreen.xaml</DependentUpon>

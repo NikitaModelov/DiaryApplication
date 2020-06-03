@@ -70,7 +70,7 @@ namespace DataBaseLib
                 using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
                 {
                     cmd.Parameters.Add("@IDTask", SqlDbType.Int);
-                    cmd.Parameters["@ID"].Value = idTask;
+                    cmd.Parameters["@IDTask"].Value = idTask;
 
                     cmd.Parameters.Add("@StartTime", SqlDbType.DateTime);
                     cmd.Parameters["@StartTime"].Value = interval.StartTime;

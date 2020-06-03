@@ -17,7 +17,8 @@ namespace DiaryApplication.User.Profile.Presentation
         {
             this.InitializeComponent();
             ViewModel = new ProfileViewModel(new UpdateProfileUseCase(),
-                                             new GetProfileUseCase());
+                                             new GetProfileUseCase(),
+                                             new GetTasksUseCase());
         }
 
         private void EditProfile_OnClick(object sender, RoutedEventArgs e)

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.ResponseWrapper;
+using DiaryApplication.Tasks.Data.Model;
 using DiaryApplication.User.Profile.Domain;
 using DiaryApplication.Utills;
 using DiaryApplication.Utills.Command;
@@ -14,6 +16,7 @@ namespace DiaryApplication.User.Profile.Presentation
     {
         private UpdateProfileUseCase updateProfileUseCase;
         private GetProfileUseCase getProfileUseCase;
+        private GetTasksUseCase getTasksUseCase;
 
         
         private string secondName;
@@ -72,16 +75,39 @@ namespace DiaryApplication.User.Profile.Presentation
             }
         }
 
+        private double avgRating;
+        public double AvgRating
+        {
+            get => avgRating;
+            set => Set(ref avgRating, value);
+        }
+
+        private TimeSpan allTime;
+        public TimeSpan AllTime
+        {
+            get => allTime;
+            set => Set(ref allTime, value);
+        }
+
+        private TimeSpan allAvgTime;
+        public TimeSpan AllAvgTime
+        {
+            get => allAvgTime;
+            set => Set(ref allAvgTime, value);
+        }
+
         private DiaryCommand updateDiaryCommandAsync;
 
         public DiaryCommand UpdateDiaryCommand => updateDiaryCommandAsync ??
                                                        new DiaryCommand(() => UpdateProfile());
 
-        public ProfileViewModel(UpdateProfileUseCase updateProfileUseCase, GetProfileUseCase getProfileUseCase)
+        public ProfileViewModel(UpdateProfileUseCase updateProfileUseCase, GetProfileUseCase getProfileUseCase, GetTasksUseCase getTasksUseCase)
         {
+            this.getTasksUseCase = getTasksUseCase;
             this.getProfileUseCase = getProfileUseCase;
             this.updateProfileUseCase = updateProfileUseCase;
             GetProfileById();
+            
         }
 
         private async Task GetProfileById()
@@ -92,6 +118,8 @@ namespace DiaryApplication.User.Profile.Presentation
                 profile = responseWrapper.Data;
                 FirstName = profile.FirstName;
                 SecondName = profile.SecondName;
+
+                GetTask();
             }
             else
             {
@@ -112,12 +140,25 @@ namespace DiaryApplication.User.Profile.Presentation
                 }
                 else
                 {
-                    var errorMessage = (response as Error).Message;
+                    var errorMessage = (response as Error)?.Message;
                     Debug.WriteLine("[ProfileViewModel.UpdateProfile()] Error: " + errorMessage);
-                    //TODO: Что-то делает при ошибке
                 }
             }
-            
+        }
+
+        private async Task GetTask()
+        {
+            var response = await getTasksUseCase.GetProfileTasks(profile.Id);
+            if (response is Success<List<TaskEntity>> responseWrapper)
+            {
+                AvgRating = Statistic.GetAllAverageRating(responseWrapper.Data);
+                AllAvgTime = Statistic.GetAllAverageTime(responseWrapper.Data);
+                AllTime = Statistic.GetAllTimeByTasks(responseWrapper.Data);
+            }
+            else
+            {
+                // TODO: ddddd
+            }
         }
     }
 }

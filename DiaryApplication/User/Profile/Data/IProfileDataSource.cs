@@ -11,5 +11,6 @@ namespace DiaryApplication.User.Profile.Data
     {
         Task<bool> UpdateProfile(ProfileDTO profile);
         Task<ProfileDTO> GetProfileById(int id);
+        Task<List<TaskEntityDTO>> GetProfileTasks(int idProfile);
     }
 }

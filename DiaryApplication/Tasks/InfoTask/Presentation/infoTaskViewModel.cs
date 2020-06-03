@@ -1,6 +1,7 @@
 ﻿using DiaryApplication.Utills;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using DiaryApplication.Core;
 using DiaryApplication.Core.Model;
@@ -88,6 +89,14 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             set => Set(ref allTime, value);
         }
 
+        private TimeSpan avgTime;
+
+        public TimeSpan AvgTime
+        {
+            get => avgTime;
+            set => Set(ref avgTime, value);
+        }
+
         private string title;
         public string Title
         {
@@ -152,8 +161,10 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
                     TaskEntity = responseWrapper.Data;
                     Types = new ObservableCollection<TypeEntity>(TaskEntity.Types);
                     Intervals = new ObservableCollection<Interval>(TaskEntity.Intervals);
+
                     AllTime = Statistic.GetAllTime(TaskEntity.Intervals);
                     Rating = Statistic.GetAverageRating(TaskEntity.Intervals);
+                    AvgTime = Statistic.GetAverageTime(TaskEntity.Intervals);
 
                     Title = TaskEntity.Title;
                     Subtitle = TaskEntity.Subtitle;
@@ -179,7 +190,7 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             }
             else
             {
-                // TODO: я Ошибка
+                Debug.WriteLine("[InfoTaskViewModel.AddInterval()] Error: " + (response as Error).Message);
             }
         }
 

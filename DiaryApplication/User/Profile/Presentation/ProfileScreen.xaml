@@ -42,6 +42,26 @@
                     Command="{x:Bind ViewModel.UpdateDiaryCommand, Mode=OneWay}"
                     Click="EditButton_OnClick"
                     Margin="0,16,0,0" Visibility="Collapsed"/>
+
+            <StackPanel Margin="0,60,0,0">
+                <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="Статистика"/>
+                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <TextBlock  Text="Общая оценка ваших задач:"/>
+                    <TextBlock  Margin="14,0,0,0" 
+                                Text="{x:Bind ViewModel.AvgRating, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock  Text="Затраченое время на все задачи:"/>
+                    <TextBlock  Margin="14,0,0,0" 
+                                Text="{x:Bind ViewModel.AllTime, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock  Text="Среднее затраченное время на задачи:"/>
+                    <TextBlock  Margin="14,0,0,0" 
+                                Text="{x:Bind ViewModel.AllAvgTime, Mode=OneWay}"/>
+                </StackPanel>
+                
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
