@@ -139,7 +139,7 @@
     <Compile Include="Tasks\AddTask\Presentation\AddTaskViewModel.cs" />
     <Compile Include="Tasks\AllTasks\Data\ITasksRepository.cs" />
     <Compile Include="Tasks\AllTasks\Data\Local\TasksLocalDataSource.cs" />
-    <Compile Include="Tasks\AllTasks\Data\Model\TaskEntity.cs" />
+    <Compile Include="Core\Model\TaskEntity.cs" />
     <Compile Include="Tasks\AllTasks\Data\TasksRepository.cs" />
     <Compile Include="Tasks\AllTasks\Domain\GetTasksUseCase.cs" />
     <Compile Include="Tasks\AllTasks\Presentation\TaskScreen.xaml.cs">
@@ -258,6 +258,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Core\Data\" />
+    <Folder Include="Tasks\AllTasks\Data\Model\" />
     <Folder Include="Tasks\AllTasks\Data\Repository\" />
   </ItemGroup>
   <ItemGroup>

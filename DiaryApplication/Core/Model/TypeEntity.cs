@@ -8,18 +8,32 @@ namespace DiaryApplication.Core.Model
 {
     public class TypeEntity
     {
-        public int Id { get; private set; }
-        public string Title { get; private set; }
+        public int Id { get; }
+        public string Title { get; }
 
-        public TypeEntity(int id, string title)
+        public TypeEntity(string title) 
         {
-            Id = id;
-            Title = title;
+            if (title.Length > 0)
+            {
+                Title = title;
+            }
+            else
+            {
+                throw new Exception("Недопустимый параметр title");
+            }
+            
         }
-
-        public TypeEntity(string title)
+        public TypeEntity(int id, string title) : this(title)
         {
-            Title = title;
+            if (id >= 0)
+            {
+                Id = id;
+            }
+            else
+            {
+                throw new Exception("Недопустимый параметр id");
+            }
+            
         }
     }
 }
