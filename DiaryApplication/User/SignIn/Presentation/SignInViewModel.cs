@@ -69,7 +69,6 @@ namespace DiaryApplication.SignIn.Presentation
             {
                 var errorMessage = (response as Error).Message;
                 Debug.WriteLine("[SignInViewModel.GetAllProfileAsync()] Error: " + errorMessage);
-                //TODO: Что-то делает при ошибке
             }
         }
 

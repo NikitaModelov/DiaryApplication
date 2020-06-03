@@ -204,7 +204,7 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
             }
             else
             {
-                // TODO: я Ошибка
+                Debug.WriteLine("[InfoTaskViewModel.DeleteInterval()] Error: " + (response as Error).Message);
             }
         }
 
@@ -227,7 +227,7 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
                 }
                 else
                 {
-                    // TODO: я Ошибка
+                    Debug.WriteLine("[InfoTaskViewModel.UpdateTask()] Error: " + (response as Error).Message);
                 }
             }
         }
@@ -238,11 +238,11 @@ namespace DiaryApplication.Tasks.InfoTask.Presentation
                 await closeTaskUseCase.CloseTask(TaskEntity.Id, true);
             if (response is Success<bool> responseWrapper && responseWrapper.Data)
             {
-                // TODO: успех
+                Debug.WriteLine("InfoTaskViewModel.CreateTask() - Success");
             }
             else
             {
-                // TODO: я Ошибка
+                Debug.WriteLine("InfoTaskViewModel.CreateTask() Error: " + (response as Error).Message);
             }
         }
 

@@ -113,7 +113,7 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
                     }
                     else
                     {
-                        // TODO: Всё не круто
+                        Debug.WriteLine("AddTaskViewModel.CreateTask() Error: " + (response as Error).Message);
                     }
                 }
             }

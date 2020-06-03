@@ -125,7 +125,6 @@ namespace DiaryApplication.User.Profile.Presentation
             {
                 var errorMessage = (response as Error).Message;
                 Debug.WriteLine("[ProfileViewModel.UpdateProfile()] Error: " + errorMessage);
-                //TODO: Что-то делает при ошибке
             }
         }
 
@@ -136,7 +135,7 @@ namespace DiaryApplication.User.Profile.Presentation
                 var response = await updateProfileUseCase.UpdateProfile(new Core.Model.Profile(Session.IdProfile, FirstName, SecondName, null));
                 if (response is Success<bool> responseWrapper)
                 {
-                    // TODO: Что-то сделать
+                    Debug.WriteLine("ProfileViewModel.UpdateProfile() Success");
                 }
                 else
                 {
@@ -157,7 +156,7 @@ namespace DiaryApplication.User.Profile.Presentation
             }
             else
             {
-                // TODO: ddddd
+                Debug.WriteLine("[ProfileViewModel.GetTask()] Error: " + (response as Error).Message);
             }
         }
     }

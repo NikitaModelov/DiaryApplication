@@ -61,7 +61,6 @@ namespace DiaryApplication.Tasks.Presentation
                 {
                     var errorMessage = (response as Error).Message;
                     Debug.WriteLine("[TaskViewModel.GetTasks()] Error: " + errorMessage);
-                    //TODO: Что-то делает при ошибке
                 }
             }
             catch (Exception e)
