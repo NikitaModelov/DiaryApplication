@@ -35,6 +35,7 @@ namespace DataBaseLib
                         profiles.Add(profile);
                     }
                 }
+
                 client.CloseConnection();
                 return profiles;
             }
@@ -43,6 +44,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DataBaseProfile.SelectAll()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -70,6 +75,7 @@ namespace DataBaseLib
                     profile.SetTasks(await GetTasks(profile.Id));
 
                 }
+
                 client.CloseConnection();
                 return profile;
             }
@@ -78,6 +84,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DataBaseProfile.SelectById()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -102,6 +112,7 @@ namespace DataBaseLib
 
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
+
                 client.CloseConnection();
                 return true;
             }
@@ -110,6 +121,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DataBaseProfile.Update()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -131,6 +146,7 @@ namespace DataBaseLib
                     var row = await cmd.ExecuteNonQueryAsync();
                     Debug.WriteLine("[DataBaseProfile.InsertProfile()]: Rows: " + row);
                 }
+
                 client.CloseConnection();
                 return true;
             }
@@ -139,6 +155,10 @@ namespace DataBaseLib
                 Debug.WriteLine("Error: " + e.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 

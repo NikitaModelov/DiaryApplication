@@ -42,6 +42,10 @@ namespace DataBaseLib
                 client.CloseConnection();
                 return null;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         public async Task<TypeDTO> SelectById(int idObject)
@@ -69,6 +73,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DatabaseType.SelectById()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -99,6 +107,10 @@ namespace DataBaseLib
                 client.CloseConnection();
                 return false;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         public async Task<bool> Delete(int id)
@@ -121,6 +133,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DataBaseProfile.Update()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -152,6 +168,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DatabaseType.GetTypesTask()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
     }

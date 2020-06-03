@@ -34,7 +34,8 @@ namespace DataBaseLib.Database
                         var lastChangeTime = dataReader.GetDateTime(5);
                         var isClosed = dataReader.GetBoolean(6);
 
-                        var task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime, isClosed, null, null);
+                        var task = new TaskEntityDTO(id, title, subtitle, description, addTime, lastChangeTime,
+                            isClosed, null, null);
                         tasks.Add(task);
                     }
                 }
@@ -44,6 +45,7 @@ namespace DataBaseLib.Database
                     task.SetTypes(await GetTypesTask(task.Id));
                     task.SetIntervals(await GetIntervalsTask(task.Id));
                 }
+
                 client.CloseConnection();
                 return tasks;
             }
@@ -52,6 +54,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("[DatabaseTask.SelectAll()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -88,6 +94,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("[DatabaseTask.SelectById()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -136,6 +146,10 @@ namespace DataBaseLib.Database
                 client.CloseConnection();
                 return null;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         public async Task<bool> Update(TaskEntityDTO newObject)
@@ -183,6 +197,10 @@ namespace DataBaseLib.Database
                 client.CloseConnection();
                 return false;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         public async Task<bool> Delete(int id)
@@ -205,6 +223,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("[DatabaseTask.Delete()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -265,6 +287,10 @@ namespace DataBaseLib.Database
                 client.CloseConnection();
                 return false;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         public async Task<bool> CloseTask(int idTask, bool isClosed)
@@ -286,6 +312,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("[DatabaseTask.CloseTask()] Error: " + exception.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -321,6 +351,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("[DataBaseTask.GetIntervalsTask()] Error: " + exception.Message);
                 client.CloseConnection();
                 return null;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -358,6 +392,10 @@ namespace DataBaseLib.Database
                 client.CloseConnection();
                 return false;
             }
+            finally
+            {
+                client.CloseConnection();
+            }
         }
 
         private async Task<bool> InsertProfileTask(int idProfile, int? idTask)
@@ -384,6 +422,10 @@ namespace DataBaseLib.Database
                 Debug.WriteLine("Error: " + e.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
     }

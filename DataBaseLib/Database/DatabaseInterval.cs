@@ -44,6 +44,7 @@ namespace DataBaseLib
 
                     cmd.ExecuteNonQuery();
                 }
+
                 client.CloseConnection();
                 return true;
 
@@ -53,6 +54,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DatabaseTask.InsertInterval()] Error: " + e.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
         }
 
@@ -78,6 +83,7 @@ namespace DataBaseLib
 
                     cmd.ExecuteNonQuery();
                 }
+
                 client.CloseConnection();
                 return true;
 
@@ -87,6 +93,10 @@ namespace DataBaseLib
                 Debug.WriteLine("[DatabaseTask.InsertInterval()] Error: " + e.Message);
                 client.CloseConnection();
                 return false;
+            }
+            finally
+            {
+                client.CloseConnection();
             }
 
         }
