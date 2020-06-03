@@ -13,9 +13,9 @@ namespace DiaryApplication.Core.Model
 
         public TypeEntity(string title) 
         {
-            if (title.Length > 0)
+            if (title.Trim().Length > 0)
             {
-                Title = title;
+                Title = title.Trim();
             }
             else
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DiaryApplication.Tasks.Data.Model;
 
 namespace DiaryApplication.Core.Model
@@ -12,15 +13,30 @@ namespace DiaryApplication.Core.Model
 
         public Profile(string firstName, string secondName, List<TaskEntity> tasks) 
         {
-            FirstName = firstName;
-            SecondName = secondName;
-            Tasks = tasks;
+            if (FirstName.Trim().Length > 0 && SecondName.Trim().Length > 0)
+            {
+                FirstName = firstName.Trim();
+                SecondName = secondName.Trim();
+                Tasks = tasks;
+            }
+            else
+            {
+                throw new Exception("Недопустимый параметры");
+            }
         }
 
         public Profile(int id, string firstName, string secondName, List<TaskEntity> tasks) 
             : this(firstName, secondName, tasks)
         {
-            Id = id;
+            if (id >= 0)
+            {
+                Id = id;
+            }
+            else
+            {
+                throw new Exception("Недопустимый параметры");
+            }
+
         }
         public override string ToString()
         {
