@@ -2,6 +2,7 @@
 using DiaryApplication.Utills;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -23,40 +24,28 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
         public string Title
         {
             get => title;
-            set
-            {
-                Set(ref title, value);
-            }
+            set => Set(ref title, value);
         }
 
         private string subtitle;
         public string Subtitle
         {
             get => subtitle;
-            set
-            {
-                Set(ref subtitle, value);
-            }
+            set => Set(ref subtitle, value);
         }
 
         private string description;
         public string Description
         {
             get => description;
-            set
-            {
-                Set(ref description, value);
-            }
+            set => Set(ref description, value);
         }
 
         private ObservableCollection<TypeEntity> types;
         public ObservableCollection<TypeEntity> Types
         {
             get => types;
-            set
-            {
-                Set(ref types, value);
-            }
+            set => Set(ref types, value);
         }
 
         private bool showErrorTypes;
@@ -77,10 +66,10 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
         {
             this.sendTaskUseCase = sendTaskUseCase;
             this.getTypeUseCase = getTypeUseCase;
-            GetType();
+            GetTaskType();
         }
 
-        private async Task GetType()
+        private async Task GetTaskType()
         {
             var response = await getTypeUseCase.Get();
             if (response is Success<List<TypeEntity>> responseWrapper)
@@ -130,7 +119,7 @@ namespace DiaryApplication.Tasks.AddTask.Presentation
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Debug.WriteLine(e);
                 throw;
             }
 
