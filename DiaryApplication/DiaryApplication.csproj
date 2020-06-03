@@ -257,17 +257,17 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Profile\" />
+    <Folder Include="Core\Data\" />
     <Folder Include="Tasks\AllTasks\Data\Repository\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataBaseLib\DataBaseLib.csproj">
       <Project>{4e7221c8-c916-4a3f-85fc-60718ae12dce}</Project>
       <Name>DataBaseLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

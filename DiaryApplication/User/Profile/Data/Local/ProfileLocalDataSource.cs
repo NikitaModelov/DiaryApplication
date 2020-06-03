@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataBaseLib;
+using DataBaseLib.Database;
 
 namespace DiaryApplication.User.Profile.Data.Local
 {
     public class ProfileLocalDataSource : IProfileDataSource
     {
-        private readonly IDatabase<ProfileDTO, bool> database;
+        private readonly IDataBaseProfile<ProfileDTO, bool> database;
 
         public ProfileLocalDataSource()
         {

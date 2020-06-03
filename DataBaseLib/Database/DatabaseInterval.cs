@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataBaseLib
 {
-    public class DatabaseInterval : IDatabaseInterval<IntervalDTO, bool>
+    public class DatabaseInterval : Database.IDatabaseInterval<IntervalDTO, bool>
     {
         private readonly DatabaseConnection client;
 
@@ -33,11 +34,14 @@ namespace DataBaseLib
 
         public async Task<bool> Delete(int id)
         {
-            var command = $"DELETE [Task_Interval] WHERE ID = {id}";
+            var command = $"DELETE [Task_Interval] WHERE ID = @ID";
             try
             {
                 using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = id;
+
                     cmd.ExecuteNonQuery();
                 }
                 client.CloseConnection();
@@ -55,11 +59,23 @@ namespace DataBaseLib
         public async Task<bool> InsertInterval(int idTask, IntervalDTO interval)
         {
             var command =
-                $"INSERT [Task_Interval] VALUES ({idTask}, '{interval.StartTime}', '{interval.FinishTime}', {interval.Rating})";
+                "INSERT [Task_Interval] VALUES (@IDTask, @StartTime, @FinishTime, @Rating)";
             try
             {
                 using (SqlCommand cmd = new SqlCommand(command, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@IDTask", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = idTask;
+
+                    cmd.Parameters.Add("@StartTime", SqlDbType.DateTime);
+                    cmd.Parameters["@StartTime"].Value = interval.StartTime;
+
+                    cmd.Parameters.Add("@FinishTime", SqlDbType.DateTime);
+                    cmd.Parameters["@FinishTime"].Value = interval.FinishTime;
+
+                    cmd.Parameters.Add("@Rating", SqlDbType.Float);
+                    cmd.Parameters["@Rating"].Value = interval.Rating;
+
                     cmd.ExecuteNonQuery();
                 }
                 client.CloseConnection();

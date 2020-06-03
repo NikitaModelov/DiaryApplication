@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataBaseLib;
+using DataBaseLib.Database;
 
-namespace DiaryApplication.Tasks.Data.Local
+namespace DiaryApplication.Tasks.AllTasks.Data.Local
 {
     public class TasksLocalDataSource
     {

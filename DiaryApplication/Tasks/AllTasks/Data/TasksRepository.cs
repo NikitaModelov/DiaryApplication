@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiaryApplication.Core.ResponseWrapper;
-using DiaryApplication.Tasks.Data.Local;
+using DiaryApplication.Tasks.AllTasks.Data.Local;
 using DiaryApplication.Tasks.Data.Model;
 using DiaryApplication.Utills;
 

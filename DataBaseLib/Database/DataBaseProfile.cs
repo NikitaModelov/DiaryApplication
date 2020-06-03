@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using DataBaseLib.Database;
 
 namespace DataBaseLib
 {
-    public class DatabaseProfile : IDataBaseProfile<ProfileDTO, bool>
+    public class DatabaseProfile : Database.IDataBaseProfile<ProfileDTO, bool>
     {
         private readonly DatabaseConnection client;
 
@@ -46,12 +48,15 @@ namespace DataBaseLib
 
         public async Task<ProfileDTO> SelectById(int idObject)
         {
-            string commandSelectById = $"SELECT * FROM Profile WHERE ID = {idObject}";
+            string commandSelectById = "SELECT * FROM Profile WHERE ID = @ID";
             ProfileDTO profile = new ProfileDTO();
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandSelectById, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = idObject;
+
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
@@ -79,13 +84,22 @@ namespace DataBaseLib
         public async Task<bool> Update(ProfileDTO newObject)
         {
             string updateCommand =
-                $"UPDATE Profile SET FirstName='{newObject.FirstName}', SecondName='{newObject.SecondName}' " +
-                $"FROM (SELECT * FROM Profile WHERE ID = {newObject.Id}) AS Selected WHERE Profile.ID = Selected.ID";
+                "UPDATE Profile SET FirstName='@FirstName', SecondName='@SecondName' " +
+                "FROM (SELECT * FROM Profile WHERE ID = @ID) AS Selected WHERE Profile.ID = Selected.ID";
 
             try
             {
                 using (SqlCommand cmd = new SqlCommand(updateCommand, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = newObject.Id;
+
+                    cmd.Parameters.Add("@FirstName", SqlDbType.VarChar);
+                    cmd.Parameters["@FirstName"].Value = newObject.FirstName;
+
+                    cmd.Parameters.Add("@SecondName", SqlDbType.VarChar);
+                    cmd.Parameters["@SecondName"].Value = newObject.SecondName;
+
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();

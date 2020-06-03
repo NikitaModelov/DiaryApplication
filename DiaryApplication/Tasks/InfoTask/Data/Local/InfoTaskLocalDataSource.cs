@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataBaseLib;
+using DataBaseLib.Database;
 
 namespace DiaryApplication.Tasks.InfoTask.Data.Local
 {

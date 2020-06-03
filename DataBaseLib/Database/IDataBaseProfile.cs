@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DataBaseLib
+namespace DataBaseLib.Database
 {
     public interface IDataBaseProfile<T, V> : IDatabase<T, V>
     {

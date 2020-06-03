@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DataBaseLib;
+using DataBaseLib.Database;
+
 
 namespace DiaryApplication.Tasks.AddTask.Data.Local
 {

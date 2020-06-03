@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DataBaseLib
+namespace DataBaseLib.Database
 {
     public interface IDatabase<T, V>
     {

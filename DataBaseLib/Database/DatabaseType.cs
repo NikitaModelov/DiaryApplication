@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataBaseLib
 {
-    public class DatabaseType : IDatabaseType<TypeDTO, bool>
+    public class DatabaseType : Database.IDatabaseType<TypeDTO, bool>
     {
         private readonly DatabaseConnection client;
         public DatabaseType()
@@ -45,12 +46,15 @@ namespace DataBaseLib
 
         public async Task<TypeDTO> SelectById(int idObject)
         {
-            string commandSelectById = $"SELECT * FROM [Type] WHERE [Type].ID = {idObject}"; 
+            string commandSelectById = $"SELECT * FROM [Type] WHERE [Type].ID = @ID"; 
             var type = new TypeDTO();
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandSelectById, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = idObject;
+
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
@@ -78,6 +82,12 @@ namespace DataBaseLib
             {
                 using (SqlCommand cmd = new SqlCommand(updateCommand, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = newObject.Id;
+
+                    cmd.Parameters.Add("@Title", SqlDbType.VarChar);
+                    cmd.Parameters["@Title"].Value = newObject.Title;
+
                     await cmd.ExecuteNonQueryAsync();
                 }
                 client.CloseConnection();
@@ -93,11 +103,13 @@ namespace DataBaseLib
 
         public async Task<bool> Delete(int id)
         {
-            string commandDelete = $"DELETE Type_Task WHERE IDType = {id}; DELETE [Type] WHERE ID = {id}";
+            string commandDelete = $"DELETE Type_Task WHERE IDType = @ID; DELETE [Type] WHERE ID = @ID";
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandDelete, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = id;
                     var row = await cmd.ExecuteNonQueryAsync();
                 }
 
@@ -116,12 +128,15 @@ namespace DataBaseLib
         {
             client.CloseConnection();
             string commandGetTypesTask = "SELECT [Type].ID, [Type].Title FROM [Type], Task, Type_Task " +
-                                         $"WHERE[Type].ID = Type_Task.IDType AND Task.ID = Type_Task.IDTask AND Task.ID = {idTask}";
+                                         $"WHERE[Type].ID = Type_Task.IDType AND Task.ID = Type_Task.IDTask AND Task.ID = @ID";
             var types = new List<TypeDTO>();
             try
             {
                 using (SqlCommand cmd = new SqlCommand(commandGetTypesTask, client.OpenConnection()))
                 {
+                    cmd.Parameters.Add("@ID", SqlDbType.Int);
+                    cmd.Parameters["@ID"].Value = idTask;
+
                     SqlDataReader dataReader = await cmd.ExecuteReaderAsync();
                     while (dataReader.Read())
                     {
