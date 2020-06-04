@@ -30,15 +30,22 @@ namespace DiaryApplication.Tasks.Data.Model
             List<TypeEntity> types,
             List<Interval> intervals)
         {
-            Id = id;
-            Title = title;
-            Subtitle = subtitle;
-            Description = description;
-            AddTime = addTime;
-            LastChangeTime = lastChangeTime;
-            IsClosed = isClosed;
-            Types = types;
-            Intervals = intervals;
+            if (id >= 0 && ValidateFields(title, subtitle, description))
+            {
+                Id = id;
+                Title = title;
+                Subtitle = subtitle;
+                Description = description;
+                AddTime = addTime;
+                LastChangeTime = lastChangeTime;
+                IsClosed = isClosed;
+                Types = types;
+                Intervals = intervals;
+            }
+            else
+            {
+                throw new Exception("Недопустимые параметры");
+            }
         }
 
         public TaskEntity(
@@ -51,14 +58,22 @@ namespace DiaryApplication.Tasks.Data.Model
             List<TypeEntity> types,
             List<Interval> intervals)
         {
-            Title = title;
-            Subtitle = subtitle;
-            Description = description;
-            AddTime = addTime;
-            LastChangeTime = lastChangeTime;
-            IsClosed = isClosed;
-            Types = types;
-            Intervals = intervals;
+            if (ValidateFields(title, subtitle, description))
+            {
+                Title = title;
+                Subtitle = subtitle;
+                Description = description;
+                AddTime = addTime;
+                LastChangeTime = lastChangeTime;
+                IsClosed = isClosed;
+                Types = types;
+                Intervals = intervals;
+            }
+            else
+            {
+                 throw new Exception("Недопустимые параметры");
+            }
+            
         }
 
         public TaskEntity(
@@ -70,19 +85,32 @@ namespace DiaryApplication.Tasks.Data.Model
             bool isClosed,
             List<TypeEntity> types)
         {
-            Id = id;
-            Title = title;
-            Subtitle = subtitle;
-            Description = description;
-            LastChangeTime = lastChangeTime;
-            IsClosed = isClosed;
-            Types = types;
+            if (id >= 0 && ValidateFields(title, subtitle, description))
+            {
+                Id = id;
+                Title = title;
+                Subtitle = subtitle;
+                Description = description;
+                LastChangeTime = lastChangeTime;
+                IsClosed = isClosed;
+                Types = types;
+            }
+            else
+            {
+                throw new Exception("Недопустимые параметры");
+            }
+
         }
 
         public TaskEntity CloseTask()
         {
             IsClosed = true;
             return this;
+        }
+
+        private bool ValidateFields(string title, string subtitle, string description)
+        {
+            return title.Trim().Length > 0 && subtitle.Trim().Length > 0 && description.Trim().Length > 0;
         }
     }
 }

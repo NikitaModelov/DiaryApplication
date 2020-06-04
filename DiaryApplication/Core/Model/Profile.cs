@@ -13,7 +13,7 @@ namespace DiaryApplication.Core.Model
 
         public Profile(string firstName, string secondName, List<TaskEntity> tasks) 
         {
-            if (FirstName.Trim().Length > 0 && SecondName.Trim().Length > 0)
+            if (firstName.Trim().Length > 0 && secondName.Trim().Length > 0)
             {
                 FirstName = firstName.Trim();
                 SecondName = secondName.Trim();
