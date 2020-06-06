@@ -35,7 +35,6 @@
                 default:
                     return text.Length > 0;
             }
-            
         }
     }
 }

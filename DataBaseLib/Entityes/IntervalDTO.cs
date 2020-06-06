@@ -29,5 +29,10 @@ namespace DataBaseLib
             FinishTime = finishTime;
             Rating = rating;
         }
+
+        public override string ToString()
+        {
+            return StartTime + " " + FinishTime + " " + Rating;
+        }
     }
 }
